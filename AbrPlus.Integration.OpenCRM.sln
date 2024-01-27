@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenCRM", "OpenCRM\OpenCRM.csproj", "{A09CF5E6-DEEA-4722-A5C6-F9B9304ADCCF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenCRM.Client.Rest", "OpenCRM.Client\OpenCRM.Client.Rest.csproj", "{2053A34A-2754-4273-894C-8D7340AC663B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenCRM.Client.PayamGostar", "OpenCRM.Client.PayamGostar\OpenCRM.Client.PayamGostar.csproj", "{C530FB4F-96BD-4A7F-B96A-A7CA7E951D88}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A09CF5E6-DEEA-4722-A5C6-F9B9304ADCCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A09CF5E6-DEEA-4722-A5C6-F9B9304ADCCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A09CF5E6-DEEA-4722-A5C6-F9B9304ADCCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A09CF5E6-DEEA-4722-A5C6-F9B9304ADCCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2053A34A-2754-4273-894C-8D7340AC663B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2053A34A-2754-4273-894C-8D7340AC663B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2053A34A-2754-4273-894C-8D7340AC663B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2053A34A-2754-4273-894C-8D7340AC663B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C530FB4F-96BD-4A7F-B96A-A7CA7E951D88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C530FB4F-96BD-4A7F-B96A-A7CA7E951D88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C530FB4F-96BD-4A7F-B96A-A7CA7E951D88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C530FB4F-96BD-4A7F-B96A-A7CA7E951D88}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A442DC4A-03BA-4BC1-8857-5FAEAF612EEA}
+	EndGlobalSection
+EndGlobal
