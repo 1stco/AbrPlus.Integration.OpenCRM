@@ -8,7 +8,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AbrPlus.Integration.OpenCRM.Client.Rest
+namespace AbrPlus.Integration.OpenCRM.Client.REST
 {
     public class CallStoreApiRestClient : ICallStoreApiClient, ICallStoreApiRestClient
     {

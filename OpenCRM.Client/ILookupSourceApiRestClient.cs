@@ -4,7 +4,7 @@ using Refit;
 using System;
 using System.Threading.Tasks;
 
-namespace AbrPlus.Integration.OpenCRM.Client.Rest
+namespace AbrPlus.Integration.OpenCRM.Client.REST
 {
     public interface ILookupSourceApiRestClient : ICallStoreApiRestClient
     {
@@ -43,7 +43,7 @@ namespace AbrPlus.Integration.OpenCRM.Client.Rest
         [Get("/identity/findByCustomerNumber")]
         Task<IdentityResponse> GetIdentityByCustomerNumber([Query] IdentityByCustomerNumberRequest identityByCustomerNumberRequest);
         [Get("/identity/balance")]
-        Task<IdentityBalanceResponse> GetIdentityBalance([Query]CustomerRequest customerRequest);
+        Task<IdentityBalanceResponse> GetIdentityBalance([Query] CustomerRequest customerRequest);
 
 
         [Post("/invoice/salesInvoice")]

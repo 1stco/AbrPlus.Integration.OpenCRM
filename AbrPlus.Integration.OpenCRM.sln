@@ -5,7 +5,7 @@ VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenCRM", "OpenCRM\OpenCRM.csproj", "{A09CF5E6-DEEA-4722-A5C6-F9B9304ADCCF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenCRM.Client.Rest", "OpenCRM.Client\OpenCRM.Client.Rest.csproj", "{2053A34A-2754-4273-894C-8D7340AC663B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenCRM.Client.REST", "OpenCRM.Client\OpenCRM.Client.REST.csproj", "{2053A34A-2754-4273-894C-8D7340AC663B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenCRM.Client.PayamGostar", "OpenCRM.Client.PayamGostar\OpenCRM.Client.PayamGostar.csproj", "{C530FB4F-96BD-4A7F-B96A-A7CA7E951D88}"
 EndProject

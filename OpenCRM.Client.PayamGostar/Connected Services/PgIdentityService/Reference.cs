@@ -14,7 +14,7 @@ namespace PgIdentityService
     
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="BaseCrmObjectInfo", Namespace="http://schemas.datacontract.org/2004/07/Septa.PayamGostar.ServiceLayer.Contract.P" +
         "GContracts.DataContracts")]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(PgIdentityService.IdentityInfo))]
@@ -235,7 +235,7 @@ namespace PgIdentityService
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="IdentityInfo", Namespace="http://schemas.datacontract.org/2004/07/Septa.PayamGostar.ServiceLayer.Contract.P" +
         "GContracts.DataContracts")]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(PgIdentityService.PersonInfo))]
@@ -256,6 +256,8 @@ namespace PgIdentityService
         private System.Nullable<System.DateTime> CustomerDateField;
         
         private string CustomerNumberField;
+        
+        private string DescriptionField;
         
         private System.Nullable<bool> DontEmailField;
         
@@ -373,6 +375,19 @@ namespace PgIdentityService
             set
             {
                 this.CustomerNumberField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Description
+        {
+            get
+            {
+                return this.DescriptionField;
+            }
+            set
+            {
+                this.DescriptionField = value;
             }
         }
         
@@ -560,7 +575,7 @@ namespace PgIdentityService
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="PersonInfo", Namespace="http://schemas.datacontract.org/2004/07/Septa.PayamGostar.ServiceLayer.Contract.P" +
         "GContracts.DataContracts")]
     public partial class PersonInfo : PgIdentityService.IdentityInfo
@@ -823,7 +838,7 @@ namespace PgIdentityService
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="OrganizationInfo", Namespace="http://schemas.datacontract.org/2004/07/Septa.PayamGostar.ServiceLayer.Contract.P" +
         "GContracts.DataContracts")]
     public partial class OrganizationInfo : PgIdentityService.IdentityInfo
@@ -834,6 +849,8 @@ namespace PgIdentityService
         private string EconomicCodeField;
         
         private System.Nullable<System.Guid> ManagerIdField;
+        
+        private string NationalCodeField;
         
         private string OwnershipTypeField;
         
@@ -885,6 +902,19 @@ namespace PgIdentityService
             set
             {
                 this.ManagerIdField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string NationalCode
+        {
+            get
+            {
+                return this.NationalCodeField;
+            }
+            set
+            {
+                this.NationalCodeField = value;
             }
         }
         
@@ -981,7 +1011,7 @@ namespace PgIdentityService
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="BaseCrmObjectExtendedPropertyInfo", Namespace="http://schemas.datacontract.org/2004/07/Septa.PayamGostar.ServiceLayer.Contract.P" +
         "GContracts.DataContracts")]
     public partial class BaseCrmObjectExtendedPropertyInfo : object
@@ -1034,7 +1064,7 @@ namespace PgIdentityService
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="IdentityContactAddress", Namespace="http://schemas.datacontract.org/2004/07/Septa.PayamGostar.ServiceLayer.Contract.P" +
         "GContracts.DataContracts")]
     public partial class IdentityContactAddress : PgIdentityService.IdentityContact
@@ -1162,7 +1192,7 @@ namespace PgIdentityService
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="CategoryInfo", Namespace="http://schemas.datacontract.org/2004/07/Septa.PayamGostar.ServiceLayer.Contract.P" +
         "GContracts.DataContracts")]
     public partial class CategoryInfo : object
@@ -1260,7 +1290,7 @@ namespace PgIdentityService
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="IdentityContactPhone", Namespace="http://schemas.datacontract.org/2004/07/Septa.PayamGostar.ServiceLayer.Contract.P" +
         "GContracts.DataContracts")]
     public partial class IdentityContactPhone : PgIdentityService.IdentityContact
@@ -1328,7 +1358,7 @@ namespace PgIdentityService
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="IdentityContact", Namespace="http://schemas.datacontract.org/2004/07/Septa.PayamGostar.ServiceLayer.Contract.P" +
         "GContracts.DataContracts")]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(PgIdentityService.IdentityContactPhone))]
@@ -1398,7 +1428,7 @@ namespace PgIdentityService
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="EmployeeInfo", Namespace="http://schemas.datacontract.org/2004/07/Septa.PayamGostar.ServiceLayer.Contract.P" +
         "GContracts.DataContracts")]
     public partial class EmployeeInfo : object
@@ -1526,7 +1556,7 @@ namespace PgIdentityService
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="OperationResult", Namespace="http://schemas.datacontract.org/2004/07/Septa.PayamGostar.ServiceLayer.Contract.P" +
         "GContracts.DataContracts")]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(PgIdentityService.IdentityInfoResult))]
@@ -1566,7 +1596,7 @@ namespace PgIdentityService
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="IdentityInfoResult", Namespace="http://schemas.datacontract.org/2004/07/Septa.PayamGostar.ServiceLayer.Contract.P" +
         "GContracts.DataContracts")]
     public partial class IdentityInfoResult : PgIdentityService.OperationResult
@@ -1604,7 +1634,7 @@ namespace PgIdentityService
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="SaveCrmObjectResult", Namespace="http://schemas.datacontract.org/2004/07/Septa.PayamGostar.ServiceLayer.Contract.P" +
         "GContracts.DataContracts")]
     public partial class SaveCrmObjectResult : PgIdentityService.OperationResult
@@ -1626,7 +1656,7 @@ namespace PgIdentityService
         }
     }
     
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.FlagsAttribute()]
     [System.Runtime.Serialization.DataContractAttribute(Name="CrmObjectDeleteOption", Namespace="http://schemas.datacontract.org/2004/07/Septa.PayamGostar.Domain.Model")]
     public enum CrmObjectDeleteOption : int
@@ -1648,7 +1678,7 @@ namespace PgIdentityService
         DeleteWithHistory = 5,
     }
     
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="PgIdentityService.IIdentity")]
     public interface IIdentity
     {
@@ -1682,15 +1712,21 @@ namespace PgIdentityService
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IIdentity/FindIdentityByPhoneNumber", ReplyAction="http://tempuri.org/IIdentity/FindIdentityByPhoneNumberResponse")]
         System.Threading.Tasks.Task<PgIdentityService.IdentityInfoResult> FindIdentityByPhoneNumberAsync(string username, string password, string phoneNumber);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IIdentity/QualifyLead", ReplyAction="http://tempuri.org/IIdentity/QualifyLeadResponse")]
+        PgIdentityService.SaveCrmObjectResult QualifyLead(string username, string password, System.Guid leadId, string targetIdentityTypeCode);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IIdentity/QualifyLead", ReplyAction="http://tempuri.org/IIdentity/QualifyLeadResponse")]
+        System.Threading.Tasks.Task<PgIdentityService.SaveCrmObjectResult> QualifyLeadAsync(string username, string password, System.Guid leadId, string targetIdentityTypeCode);
     }
     
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     public interface IIdentityChannel : PgIdentityService.IIdentity, System.ServiceModel.IClientChannel
     {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     public partial class IdentityClient : System.ServiceModel.ClientBase<PgIdentityService.IIdentity>, PgIdentityService.IIdentity
     {
         
@@ -1782,6 +1818,16 @@ namespace PgIdentityService
         public System.Threading.Tasks.Task<PgIdentityService.IdentityInfoResult> FindIdentityByPhoneNumberAsync(string username, string password, string phoneNumber)
         {
             return base.Channel.FindIdentityByPhoneNumberAsync(username, password, phoneNumber);
+        }
+        
+        public PgIdentityService.SaveCrmObjectResult QualifyLead(string username, string password, System.Guid leadId, string targetIdentityTypeCode)
+        {
+            return base.Channel.QualifyLead(username, password, leadId, targetIdentityTypeCode);
+        }
+        
+        public System.Threading.Tasks.Task<PgIdentityService.SaveCrmObjectResult> QualifyLeadAsync(string username, string password, System.Guid leadId, string targetIdentityTypeCode)
+        {
+            return base.Channel.QualifyLeadAsync(username, password, leadId, targetIdentityTypeCode);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()

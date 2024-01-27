@@ -4,7 +4,7 @@ using AbrPlus.Integration.OpenCRM.Responses;
 using Refit;
 using System.Threading.Tasks;
 
-namespace AbrPlus.Integration.OpenCRM.Client.Rest
+namespace AbrPlus.Integration.OpenCRM.Client.REST
 {
     public class LookupSourceApiRestClient : CallStoreApiRestClient, ILookupSourceApiClient, ILookupSourceApiRestClient
     {
