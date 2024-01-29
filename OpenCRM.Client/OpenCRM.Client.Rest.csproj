@@ -12,7 +12,7 @@
     <FileVersion>1.0.1</FileVersion>
     <Description>Copyright © AbrPlus 2024</Description>
     <RepositoryUrl>https://github.com/1stco/AbrPlus.Integration.OpenCRM</RepositoryUrl>
-    <Description>Client for SREST implementation of AbrPlus OpenCRM contracts with supporting basic authentication</Description>
+    <Description>Client for REST implementation of AbrPlus OpenCRM contracts with supporting basic authentication</Description>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
