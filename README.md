@@ -2,7 +2,7 @@
 
 ## Introduction
 
-The AbrPlus OpenCRM API lets you manage your calls and integrate your call center with any CRM softwares.
+The AbrPlus OpenCRM API lets you manage your call logs and integrate AbrPlus Call Center Solution with any CRM softwares.
 
 CRM systems can integrate with the AbrPlus OpenCRM API to create call logs, call popups, create telephony club, manage contracts and bills of your customers and etc. The API allows you to:
 
