@@ -22,7 +22,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AbrPlus.Integration.Telephony" Version="1.0.1" />
+    <PackageReference Include="AbrPlus.Integration.Telephony" Version="1.0.19" />
   </ItemGroup>
   
 </Project>
