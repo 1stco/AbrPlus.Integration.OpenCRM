@@ -5,6 +5,7 @@ namespace AbrPlus.Integration.OpenCRM.Requests
 {
     public class CallChannelCreateRequest
     {
+        public string TsKey { get; set; }
         public string CallId { get; set; }
         public bool IsLive { get; set; }
         public string PeerName { get; set; }
