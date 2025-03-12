@@ -1,15 +1,12 @@
-﻿using AbrPlus.Integration.OpenCRM.Client;
-using AbrPlus.Integration.OpenCRM.Client.AbrPlus.Mapper;
+﻿using AbrPlus.Integration.OpenCRM.Client.AbrPlus.Mapper;
 using AbrPlus.Integration.OpenCRM.Requests;
 using AbrPlus.Integration.OpenCRM.Responses;
 using AbrPlus.Platform.Client;
-using PayamGostarClient;
-using System;
 using System.Threading.Tasks;
 
 namespace AbrPlus.Integration.OpenCRM.Client.AbrPlus
 {
-    public class CallStoreApiAbrPlusClient : ICallStoreApiClient, IDisposable
+    public class CallStoreApiAbrPlusClient : ICallStoreApiClient
     {
         public virtual string CallStoreId { get; }
         private readonly AbrPlusClient _abrPlusClient;
@@ -52,30 +49,5 @@ namespace AbrPlus.Integration.OpenCRM.Client.AbrPlus
             };
         }
 
-        //protected IPgClient MyIPgClient
-        //{
-        //    get
-        //    {
-        //        if (_pgClient == null || _nextClientCreateDate < DateTime.Now)
-        //        {
-        //            _pgClient = Create(Host, Username, Password);
-        //            _nextClientCreateDate = DateTime.Now.AddHours(1);
-        //        }
-
-        //        return _pgClient;
-        //    }
-        //}
-        //private IPgClient Create(string endPointAddress, string userName, string password)
-        //{
-        //    return new PgClientFactory().Create(endPointAddress, new PgCredentials()
-        //    {
-        //        Username = userName,
-        //        Password = password
-        //    });
-        //}
-        public void Dispose()
-        {
-            _abrPlusClient?.Dispose();
-        }
     }
 }

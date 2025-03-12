@@ -4,10 +4,19 @@
     <TargetFrameworks>net9.0;net8.0;net6.0;netstandard2.0</TargetFrameworks>
 	  <AssemblyName>AbrPlus.Integration.$(MSBuildProjectName)</AssemblyName>
 	  <RootNamespace>AbrPlus.Integration.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+	  <Company>AbrPlus</Company>
+	  <Authors>AbrPlus</Authors>
+	  <Owners>AbrPlus</Owners>
+	  <Version>1.0.7</Version>
+	  <AssemblyVersion>1.0.7</AssemblyVersion>
+	  <FileVersion>1.0.7</FileVersion>
+	  <Description>Copyright © AbrPlus 2024</Description>
+	  <RepositoryUrl>https://github.com/1stco/AbrPlus.Integration.OpenCRM</RepositoryUrl>
+	  <Description>The implementation of AbrPlus OpenCRM contracts for PayamGostar and CrmPlus</Description>
   </PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="AbrPlus.Platform.Client" Version="1.0.0" />
+		<PackageReference Include="AbrPlus.Platform.Client" Version="1.0.1" />
 		<PackageReference Include="Septa.NetStandard.PayamGostarApiClient" Version="1.0.2" />
 		<PackageReference Include="System.ServiceModel.Duplex" Version="4.10.2" />
 		<PackageReference Include="System.ServiceModel.Http" Version="4.10.2" />
