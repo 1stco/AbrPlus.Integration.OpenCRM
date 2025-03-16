@@ -4,20 +4,27 @@ using AbrPlus.Integration.OpenCRM.Requests;
 using AbrPlus.Integration.OpenCRM.Responses;
 using AbrPlus.Platform.Client;
 using SeptaKit.Extensions;
+using System.Xml.Linq;
+using System;
 
 namespace AbrPlus.Integration.OpenCRM.Client.AbrPlus.Mapper
 {
     public static class CallMapper
     {
+        public static T ParseEnum<T>(this string oldType)
+        {
+            return (T)Enum.Parse(typeof(T), oldType.ToString(), true);
+        }
+
         public static CreateCallRequestVm ToVm(this CallCreateRequest request)
         {
             return new CreateCallRequestVm()
             {
                 InitChannelPeerName = request.SourceInitCallChannelPeerName,
-                InitChannelPeerType = (PeerType)request.SourceInitCallChannelPeerType,
+                InitChannelPeerType = request.SourceInitCallChannelPeerType.ToString().ParseEnum<PeerType>(), //(PeerType)Enum.Parse(typeof(PeerType),request.SourceInitCallChannelPeerType.ToString()), //(PeerType)request.SourceInitCallChannelPeerType,
                 InitChannelSourceId = request.SourceInitCallChannelId,
                 IsLive = request.IsLive,
-                PhoneCallType = (CallType)request.CallType,
+                PhoneCallType = request.CallType.ToString().ParseEnum<CallType>(),
                 PhoneNumber = request.Number,
                 SourceId = request.SourceCallId,
                 StartDate = request.Date,
@@ -48,7 +55,7 @@ namespace AbrPlus.Integration.OpenCRM.Client.AbrPlus.Mapper
                 TsKey = request.TsKey,
                 CallId = callId.Value,
                 PhoneNumber = request.Number,
-                CallTypeIndex = (CallType)request.CallType,
+                CallTypeIndex = request.CallType.ToString().ParseEnum<CallType>(),
                 IdentityId = request.IdentityId?.ToGuid(),
                 IsLive = request.IsLive,
                 EndDate = request.Date,
@@ -76,9 +83,9 @@ namespace AbrPlus.Integration.OpenCRM.Client.AbrPlus.Mapper
             {
                 CallId = callId.Value,
                 ChannelPeerName = request.PeerName,
-                ChannelPeerTypeIndex = (PeerType)request.PeerType,
+                ChannelPeerTypeIndex = request.PeerType.ToString().ParseEnum<PeerType>(),
                 ChannelSourceId = request.SourceCallChannelId,
-                ChannelStatus = (ChannelState)request.ChannelState,
+                ChannelStatus = request.ChannelState.ToString().ParseEnum<ChannelState>(),
                 CreateDate = request.CreateDate,
                 IsLive = request.IsLive,
                 TsKey = request.TsKey,
@@ -103,14 +110,14 @@ namespace AbrPlus.Integration.OpenCRM.Client.AbrPlus.Mapper
             return new CallChannelUpdateRequestVm()
             {
                 CallChannelId = callChannelId.Value,
-                ChannelStatus = (ChannelState)request.ChannelState,
-                ChannelResponse = (ChannelResponse)request.ChannelResponse,
+                ChannelStatus = request.ChannelState.ToString().ParseEnum<ChannelState>(),
+                ChannelResponse = request.ChannelResponse.ToString().ParseEnum<ChannelResponse>(),
                 ConnectDate = request.ConnectDate,
                 HangupDate = request.HangupDate,
                 IsLive = request.IsLive,
                 RecordedFileName = request.RecordedFileName,
                 ToChangePeerName = request.ToChangePeerName,
-                ToChangePeerTypeIndex = (PeerType)request.ToChangePeerType,
+                ToChangePeerTypeIndex = request.ToChangePeerType.ToString().ParseEnum<PeerType>(),
                 TsKey = request.TsKey,
             };
         }

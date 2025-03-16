@@ -16,7 +16,6 @@
   </PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="AbrPlus.Platform.Client" Version="1.0.1" />
 		<PackageReference Include="Septa.NetStandard.PayamGostarApiClient" Version="1.0.2" />
 		<PackageReference Include="System.ServiceModel.Duplex" Version="4.10.2" />
 		<PackageReference Include="System.ServiceModel.Http" Version="4.10.2" />
@@ -25,6 +24,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\..\..\client\AbrPlus.Platform.Client\AbrPlus.Platform.Client.csproj" />
 	  <ProjectReference Include="..\..\OpenCRM\OpenCRM.csproj" />
 	</ItemGroup>
 
