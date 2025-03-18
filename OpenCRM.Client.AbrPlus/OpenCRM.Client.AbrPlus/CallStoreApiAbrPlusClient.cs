@@ -17,36 +17,76 @@ namespace AbrPlus.Integration.OpenCRM.Client.AbrPlus
         }
         public async Task<CallCreateResponse> CallCreated(CallCreateRequest callCreateRequest)
         {
+            try
+            {
 
-            return (await _abrPlusClient.CallClient.ExternalTelephonySystemClientApi.CreateCallAsync(callCreateRequest.ToVm())).ToResponse();
+                return (await _abrPlusClient.CallClient.ExternalTelephonySystemClientApi.CreateCallAsync(callCreateRequest.ToVm())).ToResponse();
 
+            }
+            catch (System.Exception ex)
+            {
+
+                throw;
+            }
         }
         public async Task<CallUpdateResponse> CallUpdated(CallUpdateRequest callUpdateRequest)
         {
-            return (await _abrPlusClient.CallClient.ExternalTelephonySystemClientApi.UpdateCallAsync(callUpdateRequest.ToVm())).ToResponse();
+            try
+            {
+                return (await _abrPlusClient.CallClient.ExternalTelephonySystemClientApi.UpdateCallAsync(callUpdateRequest.ToVm())).ToResponse();
 
+            }
+            catch (System.Exception ex)
+            {
+
+                throw;
+            }
         }
         public async Task<CallChannelCreateResponse> CallChannelCreated(CallChannelCreateRequest callChannelCreateRequest)
         {
 
-            return (await _abrPlusClient.CallClient.ExternalTelephonySystemClientApi.CreateChannelAsync(callChannelCreateRequest.ToVm())).ToResponse();
+            try
+            {
+                return (await _abrPlusClient.CallClient.ExternalTelephonySystemClientApi.CreateChannelAsync(callChannelCreateRequest.ToVm())).ToResponse();
 
+            }
+            catch (System.Exception ex)
+            {
+
+                throw;
+            }
         }
         public async Task<CallChannelUpdateResponse> CallChannelUpdated(CallChannelUpdateRequest callChannelUpdateRequest)
         {
-            await _abrPlusClient.CallClient.ExternalTelephonySystemClientApi.UpdateChannelAsync(callChannelUpdateRequest.ToVm());
-            return new CallChannelUpdateResponse()
+            try
             {
-                CallChannelId = callChannelUpdateRequest.ChannelId,
-            };
+                await _abrPlusClient.CallClient.ExternalTelephonySystemClientApi.UpdateChannelAsync(callChannelUpdateRequest.ToVm());
+                return new CallChannelUpdateResponse()
+                {
+                    CallChannelId = callChannelUpdateRequest.ChannelId,
+                };
+            }
+            catch (System.Exception ex)
+            {
+
+                throw;
+            }
         }
         public async Task<MergeCallResponse> MergeCall(MergeCallRequest mergeCallRequest)
         {
-            await _abrPlusClient.CallClient.ExternalTelephonySystemClientApi.MergeCallAsync(mergeCallRequest.ToVm());
-            return new MergeCallResponse()
+            try
             {
-                Merged = true
-            };
+                await _abrPlusClient.CallClient.ExternalTelephonySystemClientApi.MergeCallAsync(mergeCallRequest.ToVm());
+                return new MergeCallResponse()
+                {
+                    Merged = true
+                };
+            }
+            catch (System.Exception ex)
+            {
+
+                throw;
+            }
         }
 
     }

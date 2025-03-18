@@ -117,7 +117,7 @@ namespace AbrPlus.Integration.OpenCRM.Client.AbrPlus.Mapper
                 IsLive = request.IsLive,
                 RecordedFileName = request.RecordedFileName,
                 ToChangePeerName = request.ToChangePeerName,
-                ToChangePeerTypeIndex = request.ToChangePeerType.ToString().ParseEnum<PeerType>(),
+                ToChangePeerTypeIndex = request.ToChangePeerType?.ToString().ParseEnum<PeerType>(),
                 TsKey = request.TsKey,
             };
         }
