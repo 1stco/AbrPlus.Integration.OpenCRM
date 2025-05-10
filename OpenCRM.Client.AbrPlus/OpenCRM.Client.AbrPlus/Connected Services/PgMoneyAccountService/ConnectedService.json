@@ -1,7 +1,7 @@
 {
   "ExtendedData": {
     "inputs": [
-      "http://192.168.11.9/services/api/IMoneyAccount.svc"
+      "https://crm.payamgostar.com/services/api/IMoneyAccount.svc"
     ],
     "collectionTypes": [
       "System.Array",
