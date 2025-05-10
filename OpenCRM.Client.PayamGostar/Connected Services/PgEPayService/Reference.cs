@@ -13,7 +13,7 @@ namespace PgEPayService
     
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Runtime.Serialization.DataContractAttribute(Name="PaymentLinkInfo", Namespace="http://schemas.datacontract.org/2004/07/Septa.PayamGostar.ServiceLayer.Contract.P" +
         "GContracts.DataContracts")]
     public partial class PaymentLinkInfo : object
@@ -156,7 +156,7 @@ namespace PgEPayService
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Runtime.Serialization.DataContractAttribute(Name="OperationResult", Namespace="http://schemas.datacontract.org/2004/07/Septa.PayamGostar.ServiceLayer.Contract.P" +
         "GContracts.DataContracts")]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(PgEPayService.PaymentLinkInfoResult))]
@@ -195,7 +195,7 @@ namespace PgEPayService
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Runtime.Serialization.DataContractAttribute(Name="PaymentLinkInfoResult", Namespace="http://schemas.datacontract.org/2004/07/Septa.PayamGostar.ServiceLayer.Contract.P" +
         "GContracts.DataContracts")]
     public partial class PaymentLinkInfoResult : PgEPayService.OperationResult
@@ -217,7 +217,7 @@ namespace PgEPayService
         }
     }
     
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="PgEPayService.IEpay")]
     public interface IEpay
     {
@@ -229,13 +229,13 @@ namespace PgEPayService
         System.Threading.Tasks.Task<PgEPayService.PaymentLinkInfoResult> CreatePaymentLinkAsync(string username, string password, PgEPayService.PaymentLinkInfo paymentLink);
     }
     
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     public interface IEpayChannel : PgEPayService.IEpay, System.ServiceModel.IClientChannel
     {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     public partial class EpayClient : System.ServiceModel.ClientBase<PgEPayService.IEpay>, PgEPayService.IEpay
     {
         
@@ -308,6 +308,7 @@ namespace PgEPayService
                 result.ReaderQuotas = System.Xml.XmlDictionaryReaderQuotas.Max;
                 result.MaxReceivedMessageSize = int.MaxValue;
                 result.AllowCookies = true;
+                result.Security.Mode = System.ServiceModel.BasicHttpSecurityMode.Transport;
                 return result;
             }
             throw new System.InvalidOperationException(string.Format("Could not find endpoint with name \'{0}\'.", endpointConfiguration));
@@ -317,7 +318,7 @@ namespace PgEPayService
         {
             if ((endpointConfiguration == EndpointConfiguration.BasicHttpBinding_IEpay))
             {
-                return new System.ServiceModel.EndpointAddress("http://192.168.11.9/Services/API/IEpay.svc");
+                return new System.ServiceModel.EndpointAddress("https://crm.payamgostar.com/Services/API/IEpay.svc");
             }
             throw new System.InvalidOperationException(string.Format("Could not find endpoint with name \'{0}\'.", endpointConfiguration));
         }
