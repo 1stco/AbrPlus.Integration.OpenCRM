@@ -1,26 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>net9.0;net8.0;net6.0;netstandard2.0</TargetFrameworks>
-	  <AssemblyName>AbrPlus.Integration.$(MSBuildProjectName)</AssemblyName>
-	  <RootNamespace>AbrPlus.Integration.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
-	  <Company>AbrPlus</Company>
-	  <Authors>AbrPlus</Authors>
-	  <Owners>AbrPlus</Owners>
-	  <Version>1.0.11</Version>
-	  <AssemblyVersion>1.0.11</AssemblyVersion>
-	  <FileVersion>1.0.11</FileVersion>
-	  <Description>Copyright © AbrPlus 2024</Description>
-	  <RepositoryUrl>https://github.com/1stco/AbrPlus.Integration.OpenCRM</RepositoryUrl>
-	  <Description>The implementation of AbrPlus OpenCRM contracts for PayamGostar and CrmPlus</Description>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>net9.0;net8.0;net6.0;netstandard2.0</TargetFrameworks>
+		<AssemblyName>AbrPlus.Integration.$(MSBuildProjectName)</AssemblyName>
+		<RootNamespace>AbrPlus.Integration.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+		<Company>AbrPlus</Company>
+		<Authors>AbrPlus</Authors>
+		<Owners>AbrPlus</Owners>
+		<Version>1.0.11</Version>
+		<AssemblyVersion>1.0.11</AssemblyVersion>
+		<FileVersion>1.0.11</FileVersion>
+		<Description>Copyright © AbrPlus 2024</Description>
+		<RepositoryUrl>https://github.com/1stco/AbrPlus.Integration.OpenCRM</RepositoryUrl>
+		<Description>The implementation of AbrPlus OpenCRM contracts for PayamGostar and CrmPlus</Description>
+	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<OutputPath>..\.nuget\Publish\</OutputPath>
 	</PropertyGroup>
-
 
 	<ItemGroup>
 		<PackageReference Include="AbrPlus.Platform.Client" Version="1.0.1" />
@@ -32,8 +31,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\OpenCRM\OpenCRM.csproj" />
+		<ProjectReference Include="..\OpenCRM\OpenCRM.csproj" />
 	</ItemGroup>
-
 
 </Project>
