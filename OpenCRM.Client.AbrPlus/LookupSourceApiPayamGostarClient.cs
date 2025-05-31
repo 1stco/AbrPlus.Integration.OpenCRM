@@ -38,7 +38,7 @@ namespace AbrPlus.Integration.OpenCRM.Client.AbrPlus
                                                 string host,
                                                 PasswordFlowAutorize passwordFlow,
                                                 ILoggerFactory loggerFactory)
-            : base(lookupSourceId, host, passwordFlow)
+            : base(lookupSourceId, host, passwordFlow, loggerFactory)
         {
             _host = host;
             _passwordFlow = passwordFlow;

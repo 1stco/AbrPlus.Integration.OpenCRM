@@ -2,6 +2,8 @@
 using AbrPlus.Integration.OpenCRM.Requests;
 using AbrPlus.Integration.OpenCRM.Responses;
 using AbrPlus.Platform.Client;
+using AbrPlus.Platform.Client.Call;
+using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
 namespace AbrPlus.Integration.OpenCRM.Client.AbrPlus
@@ -10,17 +12,17 @@ namespace AbrPlus.Integration.OpenCRM.Client.AbrPlus
     {
         public virtual string CallStoreId { get; }
         private readonly AbrPlusClient _abrPlusClient;
-        public CallStoreApiAbrPlusClient(string callStoreId, string baseUrl, PasswordFlowAutorize passwordFlow)
+        public CallStoreApiAbrPlusClient(string callStoreId, string baseUrl, PasswordFlowAutorize passwordFlow, ILoggerFactory loggerFactory)
         {
             CallStoreId = callStoreId;
-            _abrPlusClient = new AbrPlusClient(baseUrl, passwordFlow);
+            _abrPlusClient = new AbrPlusClient(baseUrl, passwordFlow, loggerFactory);
         }
         public async Task<CallCreateResponse> CallCreated(CallCreateRequest callCreateRequest)
         {
             try
             {
 
-                return (await _abrPlusClient.CallClient.ExternalTelephonySystemClientApi.CreateCallAsync(callCreateRequest.ToVm())).ToResponse();
+                return (await _abrPlusClient.Call.ExternalTelephonySystemClientApi.CreateCallAsync(callCreateRequest.ToVm())).ToResponse();
 
             }
             catch (System.Exception ex)
@@ -33,7 +35,7 @@ namespace AbrPlus.Integration.OpenCRM.Client.AbrPlus
         {
             try
             {
-                return (await _abrPlusClient.CallClient.ExternalTelephonySystemClientApi.UpdateCallAsync(callUpdateRequest.ToVm())).ToResponse();
+                return (await _abrPlusClient.Call.ExternalTelephonySystemClientApi.UpdateCallAsync(callUpdateRequest.ToVm())).ToResponse();
 
             }
             catch (System.Exception ex)
@@ -47,7 +49,7 @@ namespace AbrPlus.Integration.OpenCRM.Client.AbrPlus
 
             try
             {
-                return (await _abrPlusClient.CallClient.ExternalTelephonySystemClientApi.CreateChannelAsync(callChannelCreateRequest.ToVm())).ToResponse();
+                return (await _abrPlusClient.Call.ExternalTelephonySystemClientApi.CreateChannelAsync(callChannelCreateRequest.ToVm())).ToResponse();
 
             }
             catch (System.Exception ex)
@@ -60,7 +62,7 @@ namespace AbrPlus.Integration.OpenCRM.Client.AbrPlus
         {
             try
             {
-                await _abrPlusClient.CallClient.ExternalTelephonySystemClientApi.UpdateChannelAsync(callChannelUpdateRequest.ToVm());
+                await _abrPlusClient.Call.ExternalTelephonySystemClientApi.UpdateChannelAsync(callChannelUpdateRequest.ToVm());
                 return new CallChannelUpdateResponse()
                 {
                     CallChannelId = callChannelUpdateRequest.ChannelId,
@@ -76,7 +78,7 @@ namespace AbrPlus.Integration.OpenCRM.Client.AbrPlus
         {
             try
             {
-                await _abrPlusClient.CallClient.ExternalTelephonySystemClientApi.MergeCallAsync(mergeCallRequest.ToVm());
+                await _abrPlusClient.Call.ExternalTelephonySystemClientApi.MergeCallAsync(mergeCallRequest.ToVm());
                 return new MergeCallResponse()
                 {
                     Merged = true

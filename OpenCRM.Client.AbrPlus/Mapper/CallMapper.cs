@@ -2,9 +2,8 @@
 
 using AbrPlus.Integration.OpenCRM.Requests;
 using AbrPlus.Integration.OpenCRM.Responses;
-using AbrPlus.Platform.Client;
+using AbrPlus.Platform.Client.Call;
 using SeptaKit.Extensions;
-using System.Xml.Linq;
 using System;
 
 namespace AbrPlus.Integration.OpenCRM.Client.AbrPlus.Mapper
