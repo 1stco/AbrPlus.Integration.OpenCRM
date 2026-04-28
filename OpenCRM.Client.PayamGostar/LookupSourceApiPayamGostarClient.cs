@@ -1184,12 +1184,19 @@ namespace AbrPlus.Integration.OpenCRM.Client.PayamGostar
 
         public Task<SubmitQueueOperatorVotingResponse> SubmitQueueOperatorVoting(SubmitQueueOperatorVotingRequest submitQueueOperatorVotingRequest)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(new SubmitQueueOperatorVotingResponse
+            {
+                Id = "0"
+            });
         }
 
         public Task<SubmitVotingResponse> SubmitVoting(SubmitVotingRequest submitVotingRequest)
         {
-            throw new NotImplementedException();
+
+            return Task.FromResult(new SubmitVotingResponse
+            {
+                Id = "0"
+            });
         }
     }
 }

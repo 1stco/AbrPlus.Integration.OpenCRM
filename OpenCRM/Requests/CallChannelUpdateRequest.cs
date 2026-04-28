@@ -7,7 +7,11 @@ namespace AbrPlus.Integration.OpenCRM.Requests
     {
         public string TsKey { get; set; }
         public string ChannelId { get; set; }
+        public string CallId { get; set; }
         public bool IsLive { get; set; }
+        public string CallNumber { get; set; }
+        public string ProfileId { get; set; }
+        public CallType CallType { get; set; }
         public ChannelState ChannelState { get; set; }
         public ChannelResponse ChannelResponse { get; set; }
         public DateTime? ConnectDate { get; set; }

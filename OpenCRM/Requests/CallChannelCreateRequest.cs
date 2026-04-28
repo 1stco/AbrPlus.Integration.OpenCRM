@@ -8,6 +8,9 @@ namespace AbrPlus.Integration.OpenCRM.Requests
         public string TsKey { get; set; }
         public string CallId { get; set; }
         public bool IsLive { get; set; }
+        public string CallNumber { get; set; }
+        public string ProfileId { get; set; }
+        public CallType CallType { get; set; }
         public string PeerName { get; set; }
         public PeerType PeerType { get; set; }
         public string SourceCallChannelId { get; set; }
