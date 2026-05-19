@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenCRM.Client.PayamGostar"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCRM.Client.AbrPlus", "OpenCRM.Client.AbrPlus\OpenCRM.Client.AbrPlus.csproj", "{D3FC7C9D-62B4-D586-6E92-5AA85ECBDD7A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCRM.Client.JsonRPC", "OpenCRM.Client.JsonRPC\OpenCRM.Client.JsonRPC.csproj", "{FF985671-3453-5858-CC6C-3AECEF54C40D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{D3FC7C9D-62B4-D586-6E92-5AA85ECBDD7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3FC7C9D-62B4-D586-6E92-5AA85ECBDD7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D3FC7C9D-62B4-D586-6E92-5AA85ECBDD7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF985671-3453-5858-CC6C-3AECEF54C40D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF985671-3453-5858-CC6C-3AECEF54C40D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF985671-3453-5858-CC6C-3AECEF54C40D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF985671-3453-5858-CC6C-3AECEF54C40D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

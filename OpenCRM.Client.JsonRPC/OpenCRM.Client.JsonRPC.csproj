@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>AbrPlus.Integration.$(MSBuildProjectName)</AssemblyName>
+    <RootNamespace>AbrPlus.Integration.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    <Company>AbrPlus</Company>
+    <Authors>AbrPlus</Authors>
+    <Owners>AbrPlus</Owners>
+    <Version>1.0.0</Version>
+    <AssemblyVersion>1.0.0</AssemblyVersion>
+    <FileVersion>1.0.0</FileVersion>
+    <Description>Copyright © AbrPlus 2024</Description>
+    <RepositoryUrl>https://github.com/1stco/AbrPlus.Integration.OpenCRM</RepositoryUrl>
+    <Description>Client for REST implementation of AbrPlus OpenCRM contracts with supporting basic authentication</Description>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <OutputPath>..\.nuget\Publish\</OutputPath>
+  </PropertyGroup>
+  
+  <ItemGroup>
+	  <PackageReference Include="AbrPlus.Integration.OpenCRM" Version="1.0.18" />
+	  <PackageReference Include="System.Text.Json" Version="8.0.6" />
+  </ItemGroup>
+
+</Project>
