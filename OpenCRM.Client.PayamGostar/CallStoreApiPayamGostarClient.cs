@@ -17,13 +17,15 @@ namespace AbrPlus.Integration.OpenCRM.Client.PayamGostar
         protected readonly ILogger _logger;
 
         public virtual string CallStoreId { get; }
+        public virtual string CallStoreName { get; }
         protected string Host { get; }
         protected string Username { get; }
         protected string Password { get; }
 
-        public CallStoreApiPayamGostarClient(string callStoreId, string host, string username, string password, ILoggerFactory loggerFactory)
+        public CallStoreApiPayamGostarClient(string callStoreId, string callStoreName, string host, string username, string password, ILoggerFactory loggerFactory)
         {
             CallStoreId = callStoreId;
+            CallStoreName = callStoreName;
             Host = host;
             Username = username;
             Password = password;
@@ -129,13 +131,13 @@ namespace AbrPlus.Integration.OpenCRM.Client.PayamGostar
             var callCreateResult = MyIPgClient.GetTelephonySystem().CallCreate(new CallCreateModel()
             {
                 TsKey = callCreateRequest.TsKey,
-                SourceId = callCreateRequest.SourceCallId,
+                SourceId = callCreateRequest.RefCallId,
                 PhoneNumber = callCreateRequest.Number,
                 StartDate = callCreateRequest.Date,
                 CallTypeIndex = ConvertToPgCallType(callCreateRequest.CallType, callCreateRequest.CallResult),
-                InitChannelSourceId = callCreateRequest.SourceInitCallChannelId,
-                InitChannelPeerName = callCreateRequest.SourceInitCallChannelPeerName,
-                InitChannelPeerTypeIndex = ConvertToPgPeerType(callCreateRequest.SourceInitCallChannelPeerType),
+                InitChannelSourceId = callCreateRequest.RefInitCallChannelId,
+                InitChannelPeerName = callCreateRequest.InitCallChannelPeerName,
+                InitChannelPeerTypeIndex = ConvertToPgPeerType(callCreateRequest.InitCallChannelPeerType),
                 IsLive = callCreateRequest.IsLive
             });
             CallCreateResponse response = new CallCreateResponse()
@@ -175,7 +177,7 @@ namespace AbrPlus.Integration.OpenCRM.Client.PayamGostar
                 CallId = long.Parse(callChannelCreateRequest.CallId),
                 ChannelPeerName = callChannelCreateRequest.PeerName,
                 ChannelPeerTypeIndex = ConvertToPgPeerType(callChannelCreateRequest.PeerType),
-                ChannelSourceId = callChannelCreateRequest.SourceCallChannelId,
+                ChannelSourceId = callChannelCreateRequest.RefCallChannelId,
                 ChannelStatusIndex = ConvertToPgChannelStatusType(callChannelCreateRequest.ChannelState),
                 CreateDate = callChannelCreateRequest.CreateDate,
                 IsLive = callChannelCreateRequest.IsLive
@@ -215,8 +217,8 @@ namespace AbrPlus.Integration.OpenCRM.Client.PayamGostar
             MyIPgClient.GetTelephonySystem().MergeCall(new Septa.PayamGostarApiClient.TelephonySystem.CallMergeModel()
             {
                 TsKey = mergeCallRequest.TsKey,
-                SourceCallId = mergeCallRequest.SourceCallId,
-                DestinationCallId = mergeCallRequest.DestCallId,
+                SourceCallId = long.Parse(mergeCallRequest.SourceCallId),
+                DestinationCallId = long.Parse(mergeCallRequest.DestCallId),
             });
             MergeCallResponse response = new MergeCallResponse()
             {

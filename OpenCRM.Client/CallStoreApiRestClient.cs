@@ -18,11 +18,13 @@ namespace AbrPlus.Integration.OpenCRM.Client.REST
         protected AuthType AuthType { get; }
 
         public virtual string CallStoreId { get; }
+        public virtual string CallStoreName { get; }
 
 
-        public CallStoreApiRestClient(string callStoreId, string host, string username, string password, AuthType authType)
+        public CallStoreApiRestClient(string callStoreId, string callStoreName, string host, string username, string password, AuthType authType)
         {
             CallStoreId = callStoreId;
+            CallStoreName = callStoreName;
             Host = host;
             Username = username;
             Password = password;

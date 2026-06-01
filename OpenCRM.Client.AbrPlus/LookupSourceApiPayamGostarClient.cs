@@ -35,10 +35,11 @@ namespace AbrPlus.Integration.OpenCRM.Client.AbrPlus
 
 
         public LookupSourceApiPayamGostarClient(string lookupSourceId,
+                                                string callStoreName,
                                                 string host,
                                                 PasswordFlowAutorize passwordFlow,
                                                 ILoggerFactory loggerFactory)
-            : base(lookupSourceId, host, passwordFlow, loggerFactory)
+            : base(lookupSourceId, callStoreName, host, passwordFlow, loggerFactory)
         {
             _host = host;
             _passwordFlow = passwordFlow;

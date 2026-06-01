@@ -19,7 +19,9 @@ namespace AbrPlus.Integration.OpenCRM.Client.JsonRPC
 
         public virtual string CallStoreId { get; private set; }
 
-        public CallStoreJsonRPCClient(string callStoreId, string host, string username, string password, AuthType authType)
+        public virtual string CallStoreName { get; private set; }
+
+        public CallStoreJsonRPCClient(string callStoreId, string callStoreName, string host, string username, string password, AuthType authType)
         {
             if (string.IsNullOrWhiteSpace(host))
                 throw new ArgumentNullException(nameof(host));
@@ -29,6 +31,7 @@ namespace AbrPlus.Integration.OpenCRM.Client.JsonRPC
             Username = username;
             Password = password;
             AuthType = authType;
+            CallStoreName = callStoreName;
         }
 
         public Task<CallCreateResponse> CallCreated(CallCreateRequest callCreateRequest)

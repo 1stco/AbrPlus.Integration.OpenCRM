@@ -8,8 +8,8 @@ namespace AbrPlus.Integration.OpenCRM.Client.JsonRPC
 {
     public class LookupSourceJsonRPCClient : CallStoreJsonRPCClient, ILookupSourceApiClient
     {
-        public LookupSourceJsonRPCClient(string lookupSourceId, string host, string username, string password, AuthType authType)
-            : base(lookupSourceId, host, username, password, authType)
+        public LookupSourceJsonRPCClient(string callStoreId, string callStoreName, string host, string username, string password, AuthType authType)
+            : base(callStoreId, callStoreName, host, username, password, authType)
         {
         }
 

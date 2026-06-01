@@ -9,8 +9,8 @@ namespace AbrPlus.Integration.OpenCRM.Client.REST
     public class LookupSourceApiRestClient : CallStoreApiRestClient, ILookupSourceApiClient, ILookupSourceApiRestClient
     {
 
-        public LookupSourceApiRestClient(string lookupSourceId, string host, string username, string password, AuthType authType)
-            : base(lookupSourceId, host, username, password, authType)
+        public LookupSourceApiRestClient(string lookupSourceId, string callStoreName, string host, string username, string password, AuthType authType)
+            : base(lookupSourceId, callStoreName, host, username, password, authType)
         {
         }
 

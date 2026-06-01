@@ -13,5 +13,6 @@ namespace AbrPlus.Integration.OpenCRM.Requests
         public CallType CallType { get; set; }
         public CallResult CallResult { get; set; }
         public string IdentityId { get; set; }
+        public string RefCallId { get; set; }
     }
 }

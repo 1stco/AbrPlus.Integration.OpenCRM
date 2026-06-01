@@ -19,13 +19,13 @@ namespace AbrPlus.Integration.OpenCRM.Client.AbrPlus.Mapper
         {
             return new CreateCallRequestVm()
             {
-                InitChannelPeerName = request.SourceInitCallChannelPeerName,
-                InitChannelPeerType = request.SourceInitCallChannelPeerType.ToString().ParseEnum<PeerType>(), //(PeerType)Enum.Parse(typeof(PeerType),request.SourceInitCallChannelPeerType.ToString()), //(PeerType)request.SourceInitCallChannelPeerType,
-                InitChannelSourceId = request.SourceInitCallChannelId,
+                InitChannelPeerName = request.InitCallChannelPeerName,
+                InitChannelPeerType = request.InitCallChannelPeerType.ToString().ParseEnum<PeerType>(), //(PeerType)Enum.Parse(typeof(PeerType),request.InitCallChannelPeerType.ToString()), //(PeerType)request.InitCallChannelPeerType,
+                InitChannelSourceId = request.RefInitCallChannelId,
                 IsLive = request.IsLive,
                 PhoneCallType = request.CallType.ToString().ParseEnum<CallType>(),
                 PhoneNumber = request.Number,
-                SourceId = request.SourceCallId,
+                SourceId = request.RefCallId,
                 StartDate = request.Date,
                 TsKey = request.TsKey,
             };
@@ -83,7 +83,7 @@ namespace AbrPlus.Integration.OpenCRM.Client.AbrPlus.Mapper
                 CallId = callId.Value,
                 ChannelPeerName = request.PeerName,
                 ChannelPeerTypeIndex = request.PeerType.ToString().ParseEnum<PeerType>(),
-                ChannelSourceId = request.SourceCallChannelId,
+                ChannelSourceId = request.RefCallChannelId,
                 ChannelStatus = request.ChannelState.ToString().ParseEnum<ChannelState>(),
                 CreateDate = request.CreateDate,
                 IsLive = request.IsLive,
@@ -125,9 +125,9 @@ namespace AbrPlus.Integration.OpenCRM.Client.AbrPlus.Mapper
         {
             return new MergeCallRequestVm()
             {
-                DestinationCallId = request.DestCallId,
-                SourceCallId = request.SourceCallId,
                 TsKey = request.TsKey,
+                DestinationCallId = long.Parse(request.DestCallId),
+                SourceCallId = long.Parse(request.SourceCallId),
             };
         }
     }

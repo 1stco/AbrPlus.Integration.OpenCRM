@@ -3,5 +3,6 @@
     public interface ICallStoreApiClient : ICallStoreApi
     {
         string CallStoreId { get; }
+        string CallStoreName { get; }
     }
 }

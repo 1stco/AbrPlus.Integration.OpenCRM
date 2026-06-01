@@ -2,7 +2,6 @@
 using AbrPlus.Integration.OpenCRM.Requests;
 using AbrPlus.Integration.OpenCRM.Responses;
 using AbrPlus.Platform.Client;
-using AbrPlus.Platform.Client.Call;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
@@ -11,10 +10,13 @@ namespace AbrPlus.Integration.OpenCRM.Client.AbrPlus
     public class CallStoreApiAbrPlusClient : ICallStoreApiClient
     {
         public virtual string CallStoreId { get; }
+        public virtual string CallStoreName { get; }
+      
         private readonly AbrPlusClient _abrPlusClient;
-        public CallStoreApiAbrPlusClient(string callStoreId, string baseUrl, PasswordFlowAutorize passwordFlow, ILoggerFactory loggerFactory)
+        public CallStoreApiAbrPlusClient(string callStoreId, string callStoreName, string baseUrl, PasswordFlowAutorize passwordFlow, ILoggerFactory loggerFactory)
         {
             CallStoreId = callStoreId;
+            CallStoreName = callStoreName;
             _abrPlusClient = new AbrPlusClient(baseUrl, passwordFlow, loggerFactory);
         }
         public async Task<CallCreateResponse> CallCreated(CallCreateRequest callCreateRequest)
