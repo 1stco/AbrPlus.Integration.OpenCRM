@@ -7,9 +7,9 @@
     <Company>AbrPlus</Company>
     <Authors>AbrPlus</Authors>
     <Owners>AbrPlus</Owners>
-    <Version>1.0.18</Version>
-    <AssemblyVersion>1.0.18</AssemblyVersion>
-    <FileVersion>1.0.18</FileVersion>
+    <Version>1.0.19</Version>
+    <AssemblyVersion>1.0.19</AssemblyVersion>
+    <FileVersion>1.0.19</FileVersion>
     <Description>Copyright © AbrPlus 2024</Description>
     <RepositoryUrl>https://github.com/1stco/AbrPlus.Integration.OpenCRM</RepositoryUrl>
     <Description>The implementation of AbrPlus OpenCRM contracts for PayamGostar and CrmPlus</Description>
@@ -28,9 +28,9 @@
 		<PackageReference Include="System.ServiceModel.NetTcp" Version="4.10.2" />
 		<PackageReference Include="System.ServiceModel.Security" Version="4.10.2" />
 	</ItemGroup>
-
+  
   <ItemGroup>
-		<PackageReference Include="AbrPlus.Integration.OpenCRM" Version="1.0.18" />
+		<PackageReference Include="AbrPlus.Integration.OpenCRM" Version="1.0.19" />
   </ItemGroup>
   
 </Project>

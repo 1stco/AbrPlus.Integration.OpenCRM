@@ -10,14 +10,8 @@ using System.Threading.Tasks;
 
 namespace AbrPlus.Integration.OpenCRM.Client.JsonRPC
 {
-    public class CallStoreJsonRPCClient : ICallStoreApiClient, IDisposable
+    public class CallStoreJsonRPCClient : ICallStoreApiClient
     {
-        private static readonly Lazy<HttpClient> SharedHttpClient = new Lazy<HttpClient>(CreateSharedHttpClient);
-
-        private readonly HttpClient _httpClient;
-        private readonly bool _disposeHttpClient;
-        private bool _disposed;
-
         protected string Host { get; private set; }
         protected string Username { get; private set; }
         protected string Password { get; private set; }
@@ -26,30 +20,9 @@ namespace AbrPlus.Integration.OpenCRM.Client.JsonRPC
         public virtual string CallStoreId { get; private set; }
 
         public CallStoreJsonRPCClient(string callStoreId, string host, string username, string password, AuthType authType)
-            : this(SharedHttpClient.Value, disposeHttpClient: false, callStoreId: callStoreId, host: host, username: username, password: password, authType: authType)
         {
-        }
-
-        public CallStoreJsonRPCClient(HttpClient httpClient, string callStoreId, string host, string username, string password, AuthType authType)
-            : this(httpClient, disposeHttpClient: false, callStoreId: callStoreId, host: host, username: username, password: password, authType: authType)
-        {
-        }
-
-        public CallStoreJsonRPCClient(HttpMessageHandler httpMessageHandler, string callStoreId, string host, string username, string password, AuthType authType)
-            : this(new HttpClient(httpMessageHandler, disposeHandler: true), disposeHttpClient: true, callStoreId: callStoreId, host: host, username: username, password: password, authType: authType)
-        {
-        }
-
-        protected CallStoreJsonRPCClient(HttpClient httpClient, bool disposeHttpClient, string callStoreId, string host, string username, string password, AuthType authType)
-        {
-            if (httpClient == null)
-                throw new ArgumentNullException(nameof(httpClient));
-
             if (string.IsNullOrWhiteSpace(host))
                 throw new ArgumentNullException(nameof(host));
-
-            _httpClient = httpClient;
-            _disposeHttpClient = disposeHttpClient;
 
             CallStoreId = callStoreId;
             Host = host.TrimEnd('/');
@@ -58,12 +31,6 @@ namespace AbrPlus.Integration.OpenCRM.Client.JsonRPC
             AuthType = authType;
         }
 
-        private static HttpClient CreateSharedHttpClient()
-        {
-            var client = new HttpClient();
-            client.Timeout = TimeSpan.FromSeconds(30);
-            return client;
-        }
         public Task<CallCreateResponse> CallCreated(CallCreateRequest callCreateRequest)
         {
             return SendAsync<CallCreateRequest, CallCreateResponse>(
@@ -114,8 +81,6 @@ namespace AbrPlus.Integration.OpenCRM.Client.JsonRPC
             TRequest parameters,
             CancellationToken cancellationToken = default)
         {
-            ThrowIfDisposed();
-
             if (string.IsNullOrWhiteSpace(method))
                 throw new ArgumentNullException(nameof(method));
 
@@ -135,42 +100,45 @@ namespace AbrPlus.Integration.OpenCRM.Client.JsonRPC
 
                 ApplyAuthentication(httpRequest);
 
-                using (var httpResponse = await _httpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false))
+                using (var httpClient = new HttpClient())
                 {
-                    var responseBody = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
-
-                    if (!httpResponse.IsSuccessStatusCode)
+                    using (var httpResponse = await httpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false))
                     {
-                        throw new CallStoreHttpException(httpResponse.StatusCode, responseBody);
-                    }
+                        var responseBody = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                    JsonRpcResponse<TResponse> rpcResponse;
+                        if (!httpResponse.IsSuccessStatusCode)
+                        {
+                            throw new CallStoreHttpException(httpResponse.StatusCode, responseBody);
+                        }
 
-                    try
-                    {
-                        rpcResponse = JsonContentFactory.Deserialize<JsonRpcResponse<TResponse>>(responseBody);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new CallStoreInvalidJsonException(responseBody, ex);
-                    }
+                        JsonRpcResponse<TResponse> rpcResponse;
 
-                    if (rpcResponse == null)
-                    {
-                        throw new CallStoreInvalidJsonException(responseBody);
-                    }
+                        try
+                        {
+                            rpcResponse = JsonContentFactory.Deserialize<JsonRpcResponse<TResponse>>(responseBody);
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new CallStoreInvalidJsonException(responseBody, ex);
+                        }
 
-                    if (rpcResponse.Error != null)
-                    {
-                        throw new CallStoreJsonRpcException(rpcResponse.Error.Code, rpcResponse.Error.Message, rpcResponse.Error.Data, rpcResponse.Id);
-                    }
+                        if (rpcResponse == null)
+                        {
+                            throw new CallStoreInvalidJsonException(responseBody);
+                        }
 
-                    if (rpcResponse.Result == null)
-                    {
-                        throw new CallStoreInvalidJsonRpcResponseException("JSON-RPC response does not contain result.", responseBody);
-                    }
+                        if (rpcResponse.Error != null)
+                        {
+                            throw new CallStoreJsonRpcException(rpcResponse.Error.Code, rpcResponse.Error.Message, rpcResponse.Error.Data, rpcResponse.Id);
+                        }
 
-                    return rpcResponse.Result;
+                        if (rpcResponse.Result == null)
+                        {
+                            throw new CallStoreInvalidJsonRpcResponseException("JSON-RPC response does not contain result.", responseBody);
+                        }
+
+                        return rpcResponse.Result;
+                    }
                 }
             }
         }
@@ -184,34 +152,6 @@ namespace AbrPlus.Integration.OpenCRM.Client.JsonRPC
 
                 request.Headers.Authorization = new AuthenticationHeaderValue("Basic", encoded);
             }
-        }
-
-        protected void ThrowIfDisposed()
-        {
-            if (_disposed)
-                throw new ObjectDisposedException(GetType().FullName);
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (_disposed)
-                return;
-
-            if (disposing)
-            {
-                if (_disposeHttpClient)
-                {
-                    _httpClient.Dispose();
-                }
-            }
-
-            _disposed = true;
         }
     }
 }

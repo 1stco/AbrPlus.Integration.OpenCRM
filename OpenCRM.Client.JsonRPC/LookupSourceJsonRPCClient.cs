@@ -1,7 +1,6 @@
 ﻿using AbrPlus.Integration.OpenCRM.Enums;
 using AbrPlus.Integration.OpenCRM.Requests;
 using AbrPlus.Integration.OpenCRM.Responses;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,15 +13,6 @@ namespace AbrPlus.Integration.OpenCRM.Client.JsonRPC
         {
         }
 
-        public LookupSourceJsonRPCClient(HttpClient httpClient, string lookupSourceId, string host, string username, string password, AuthType authType)
-            : base(httpClient, lookupSourceId, host, username, password, authType)
-        {
-        }
-
-        public LookupSourceJsonRPCClient(HttpMessageHandler httpMessageHandler, string callStoreId, string host, string username, string password, AuthType authType)
-            : base(httpMessageHandler, callStoreId, host, username, password, authType)
-        {
-        }
         public Task<CreateInvoiceResponse> CreateInvoice(CreateSalesInvoiceRequest createSalesInvoiceRequest)
         {
             return SendAsync<CreateSalesInvoiceRequest, CreateInvoiceResponse>(
