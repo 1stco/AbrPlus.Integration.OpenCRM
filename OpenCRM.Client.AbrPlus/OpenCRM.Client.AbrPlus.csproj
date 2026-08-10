@@ -7,12 +7,12 @@
 		<Company>AbrPlus</Company>
 		<Authors>AbrPlus</Authors>
 		<Owners>AbrPlus</Owners>
-		<Version>1.0.20</Version>
-		<AssemblyVersion>1.0.20</AssemblyVersion>
-		<FileVersion>1.0.20</FileVersion>
-		<Description>Copyright © AbrPlus 2024</Description>
+		<Version>1.0.22</Version>
+		<AssemblyVersion>1.0.22</AssemblyVersion>
+		<FileVersion>1.0.22</FileVersion>
+		<Description>Copyright © AbrPlus 2026</Description>
 		<RepositoryUrl>https://github.com/1stco/AbrPlus.Integration.OpenCRM</RepositoryUrl>
-		<Description>The implementation of AbrPlus OpenCRM contracts for PayamGostar and CrmPlus</Description>
+		<Description>The implementation of AbrPlus OpenCRM contracts for PGX and CallPlus</Description>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -26,12 +26,12 @@
 		<PackageReference Include="Septa.NetStandard.PayamGostarApiClient" Version="1.0.2" />
 		<PackageReference Include="System.ServiceModel.Duplex" Version="4.10.3" />
 		<PackageReference Include="System.ServiceModel.Http" Version="4.10.3" />
-		<PackageReference Include="System.ServiceModel.NetTcp" Version="4.10.2" />
-		<PackageReference Include="System.ServiceModel.Security" Version="4.10.2" />
+		<PackageReference Include="System.ServiceModel.NetTcp" Version="4.10.3" />
+		<PackageReference Include="System.ServiceModel.Security" Version="4.10.3" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="AbrPlus.Integration.OpenCRM" Version="1.0.20" />
+		<PackageReference Include="AbrPlus.Integration.OpenCRM" Version="1.0.22" />
 	</ItemGroup>
 
 </Project>
