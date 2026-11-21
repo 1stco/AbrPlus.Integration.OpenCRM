@@ -3,6 +3,9 @@
     public enum AuthType
     {
         None = 1,
-        Basic
+        Basic,
+        PasswordFlow,
+        StaticBearer,
+        ApiKey
     }
 }
