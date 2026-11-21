@@ -1,6 +1,8 @@
 ﻿using AbrPlus.Integration.OpenCRM.Enums;
 using AbrPlus.Integration.OpenCRM.Requests;
 using AbrPlus.Integration.OpenCRM.Responses;
+using AbrPlus.Platform.Client;
+using Microsoft.Extensions.Logging;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -8,8 +10,28 @@ namespace AbrPlus.Integration.OpenCRM.Client.JsonRPC
 {
     public class LookupSourceJsonRPCClient : CallStoreJsonRPCClient, ILookupSourceApiClient
     {
-        public LookupSourceJsonRPCClient(string callStoreId, string callStoreName, string host, string username, string password, AuthType authType)
-            : base(callStoreId, callStoreName, host, username, password, authType)
+        public LookupSourceJsonRPCClient(string callStoreId, string callStoreName, string host, string username, string password, AuthType authType, ILoggerFactory loggerFactory = null)
+            : base(callStoreId, callStoreName, host, username, password, authType, loggerFactory)
+        {
+        }
+
+        public LookupSourceJsonRPCClient(string callStoreId, string callStoreName, string host, BasicAuthorize auth, ILoggerFactory loggerFactory = null)
+            : base(callStoreId, callStoreName, host, auth, loggerFactory)
+        {
+        }
+
+        public LookupSourceJsonRPCClient(string callStoreId, string callStoreName, string host, PasswordFlowAutorize auth, ILoggerFactory loggerFactory = null)
+            : base(callStoreId, callStoreName, host, auth, loggerFactory)
+        {
+        }
+
+        public LookupSourceJsonRPCClient(string callStoreId, string callStoreName, string host, BearerAuthorize auth, ILoggerFactory loggerFactory = null)
+            : base(callStoreId, callStoreName, host, auth, loggerFactory)
+        {
+        }
+
+        public LookupSourceJsonRPCClient(string callStoreId, string callStoreName, string host, ApiKeyAuthorize auth, ILoggerFactory loggerFactory = null)
+            : base(callStoreId, callStoreName, host, auth, loggerFactory)
         {
         }
 

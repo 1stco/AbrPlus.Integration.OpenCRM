@@ -7,12 +7,12 @@
     <Company>AbrPlus</Company>
     <Authors>AbrPlus</Authors>
     <Owners>AbrPlus</Owners>
-    <Version>1.0.23</Version>
-    <AssemblyVersion>1.0.23</AssemblyVersion>
-    <FileVersion>1.0.23</FileVersion>
+    <Version>1.0.24</Version>
+    <AssemblyVersion>1.0.24</AssemblyVersion>
+    <FileVersion>1.0.24</FileVersion>
     <Description>Copyright © AbrPlus 2026</Description>
     <RepositoryUrl>https://github.com/1stco/AbrPlus.Integration.OpenCRM</RepositoryUrl>
-    <Description>Client for REST implementation of AbrPlus OpenCRM contracts with supporting basic authentication</Description>
+    <Description>REST client for AbrPlus OpenCRM contracts</Description>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -23,10 +23,11 @@
   
   <ItemGroup>
     <PackageReference Include="Refit" Version="8.0.0" />
+    <PackageReference Include="AbrPlus.Platform.Client" Version="1.1.26" />
   </ItemGroup>
 
   <ItemGroup>
-	  <PackageReference Include="AbrPlus.Integration.OpenCRM" Version="1.0.23" />
+	  <PackageReference Include="AbrPlus.Integration.OpenCRM" Version="1.0.24" />
   </ItemGroup>
 
 </Project>

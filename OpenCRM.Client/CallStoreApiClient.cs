@@ -1,34 +1,81 @@
 ﻿using AbrPlus.Integration.OpenCRM.Enums;
 using AbrPlus.Integration.OpenCRM.Requests;
 using AbrPlus.Integration.OpenCRM.Responses;
+using AbrPlus.Platform.Client;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Refit;
 using System;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace AbrPlus.Integration.OpenCRM.Client.REST
 {
-    public class CallStoreApiClient : ICallStoreApiClient
+    public class CallStoreApiClient : ICallStoreApiClient, IDisposable
     {
+        private readonly ApiClientHandler _handler;
+        private bool _disposed;
         protected string Host { get; }
-        protected string Username { get; }
-        protected string Password { get; }
-        protected AuthType AuthType { get; }
-
         public virtual string CallStoreId { get; }
         public virtual string CallStoreName { get; }
 
 
-        public CallStoreApiClient(string callStoreId, string callStoreName, string host, string username, string password, AuthType authType)
+        public CallStoreApiClient(string callStoreId, string callStoreName, string host, string username, string password, AuthType authType, ILoggerFactory loggerFactory = null)
+            : this(callStoreId, callStoreName, host)
+        {
+            switch (authType)
+            {
+                case AuthType.None:
+                    break;
+                case AuthType.Basic:
+                    var credentials = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{username}:{password}"));
+                    _handler = new ApiClientHandler(new BasicAuthorize { PrecomputedHeader = credentials }, loggerFactory ?? NullLoggerFactory.Instance);
+                    break;
+                default:
+                    throw new ArgumentException("Use the constructor that accepts the authorization settings for this mode.", nameof(authType));
+            }
+        }
+
+        public CallStoreApiClient(string callStoreId, string callStoreName, string host, BasicAuthorize auth, ILoggerFactory loggerFactory = null)
+            : this(callStoreId, callStoreName, host)
+        {
+            if (auth == null)
+                throw new ArgumentNullException(nameof(auth));
+            _handler = new ApiClientHandler(auth, loggerFactory ?? NullLoggerFactory.Instance);
+        }
+
+        public CallStoreApiClient(string callStoreId, string callStoreName, string host, PasswordFlowAutorize auth, ILoggerFactory loggerFactory = null)
+            : this(callStoreId, callStoreName, host)
+        {
+            if (auth == null)
+                throw new ArgumentNullException(nameof(auth));
+            _handler = new ApiClientHandler(host, auth, loggerFactory ?? NullLoggerFactory.Instance);
+        }
+
+        public CallStoreApiClient(string callStoreId, string callStoreName, string host, BearerAuthorize auth, ILoggerFactory loggerFactory = null)
+            : this(callStoreId, callStoreName, host)
+        {
+
+            if (auth == null)
+                throw new ArgumentNullException(nameof(auth));
+            _handler = new ApiClientHandler(auth, loggerFactory ?? NullLoggerFactory.Instance);
+        }
+
+        public CallStoreApiClient(string callStoreId, string callStoreName, string host, ApiKeyAuthorize auth, ILoggerFactory loggerFactory = null)
+            : this(callStoreId, callStoreName, host)
+        {
+
+            if (auth == null)
+                throw new ArgumentNullException(nameof(auth));
+            _handler = new ApiClientHandler(auth, loggerFactory ?? NullLoggerFactory.Instance);
+        }
+
+        private CallStoreApiClient(string callStoreId, string callStoreName, string host)
         {
             CallStoreId = callStoreId;
             CallStoreName = callStoreName;
             Host = host;
-            Username = username;
-            Password = password;
-            AuthType = authType;
         }
         public async Task<CallCreateResponse> CallCreated([Body] CallCreateRequest callCreateRequest)
         {
@@ -90,13 +137,35 @@ namespace AbrPlus.Integration.OpenCRM.Client.REST
 
         protected virtual HttpClient CreateClient()
         {
-            var client = RestService.CreateHttpClient(Host, null);
-            if (AuthType == AuthType.Basic)
+            if (_disposed)
+                throw new ObjectDisposedException(GetType().Name);
+
+            if (_handler == null)
+                return RestService.CreateHttpClient(Host, null);
+
+            var baseAddress = new Uri(Host.TrimEnd('/'));
+            return new HttpClient(_handler, disposeHandler: false)
             {
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes($"{Username}:{Password}")));
-            }
-            return client;
+                BaseAddress = baseAddress
+            };
         }
 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposing || _disposed)
+                return;
+
+            _disposed = true;
+
+            // ApiClientHandler 1.1.26 leaves disposal of its transport to the owner.
+            _handler?.InnerHandler?.Dispose();
+            _handler?.Dispose();
+        }
     }
 }

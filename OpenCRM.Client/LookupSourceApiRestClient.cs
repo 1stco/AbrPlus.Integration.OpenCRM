@@ -1,6 +1,8 @@
 ﻿using AbrPlus.Integration.OpenCRM.Enums;
 using AbrPlus.Integration.OpenCRM.Requests;
 using AbrPlus.Integration.OpenCRM.Responses;
+using AbrPlus.Platform.Client;
+using Microsoft.Extensions.Logging;
 using Refit;
 using System.Threading.Tasks;
 
@@ -9,8 +11,28 @@ namespace AbrPlus.Integration.OpenCRM.Client.REST
     public class LookupSourceApiRestClient : CallStoreApiClient, ILookupSourceApiClient, ILookupSourceApiRestClient
     {
 
-        public LookupSourceApiRestClient(string lookupSourceId, string callStoreName, string host, string username, string password, AuthType authType)
-            : base(lookupSourceId, callStoreName, host, username, password, authType)
+        public LookupSourceApiRestClient(string lookupSourceId, string callStoreName, string host, string username, string password, AuthType authType, ILoggerFactory loggerFactory = null)
+            : base(lookupSourceId, callStoreName, host, username, password, authType, loggerFactory)
+        {
+        }
+
+        public LookupSourceApiRestClient(string lookupSourceId, string callStoreName, string host, BasicAuthorize auth, ILoggerFactory loggerFactory = null)
+            : base(lookupSourceId, callStoreName, host, auth, loggerFactory)
+        {
+        }
+
+        public LookupSourceApiRestClient(string lookupSourceId, string callStoreName, string host, PasswordFlowAutorize auth, ILoggerFactory loggerFactory = null)
+            : base(lookupSourceId, callStoreName, host, auth, loggerFactory)
+        {
+        }
+
+        public LookupSourceApiRestClient(string lookupSourceId, string callStoreName, string host, BearerAuthorize auth, ILoggerFactory loggerFactory = null)
+            : base(lookupSourceId, callStoreName, host, auth, loggerFactory)
+        {
+        }
+
+        public LookupSourceApiRestClient(string lookupSourceId, string callStoreName, string host, ApiKeyAuthorize auth, ILoggerFactory loggerFactory = null)
+            : base(lookupSourceId, callStoreName, host, auth, loggerFactory)
         {
         }
 

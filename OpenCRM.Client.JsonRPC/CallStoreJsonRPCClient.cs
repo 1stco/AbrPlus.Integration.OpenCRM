@@ -1,36 +1,86 @@
 ﻿using AbrPlus.Integration.OpenCRM.Enums;
 using AbrPlus.Integration.OpenCRM.Requests;
 using AbrPlus.Integration.OpenCRM.Responses;
+using AbrPlus.Platform.Client;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using System;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace AbrPlus.Integration.OpenCRM.Client.JsonRPC
 {
-    public class CallStoreJsonRPCClient : ICallStoreApiClient
+    public class CallStoreJsonRPCClient : ICallStoreApiClient, IDisposable
     {
-        protected string Host { get; private set; }
-        protected string Username { get; private set; }
-        protected string Password { get; private set; }
-        protected AuthType AuthType { get; private set; }
+        private readonly ApiClientHandler _handler;
+        private bool _disposed;
 
-        public virtual string CallStoreId { get; private set; }
+        protected string Host { get; }
+        public virtual string CallStoreId { get; }
+        public virtual string CallStoreName { get; }
 
-        public virtual string CallStoreName { get; private set; }
+        public CallStoreJsonRPCClient(string callStoreId, string callStoreName, string host, string username, string password, AuthType authType, ILoggerFactory loggerFactory = null)
+            : this(callStoreId, callStoreName, host)
+        {
+            switch (authType)
+            {
+                case AuthType.None:
+                    break;
+                case AuthType.Basic:
+                    var credentials = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{username}:{password}"));
+                    _handler = new ApiClientHandler(new BasicAuthorize { PrecomputedHeader = credentials }, loggerFactory ?? NullLoggerFactory.Instance);
+                    break;
+                default:
+                    throw new ArgumentException("Use the constructor that accepts the authorization settings for this mode.", nameof(authType));
+            }
+        }
 
-        public CallStoreJsonRPCClient(string callStoreId, string callStoreName, string host, string username, string password, AuthType authType)
+        public CallStoreJsonRPCClient(string callStoreId, string callStoreName, string host, BasicAuthorize auth, ILoggerFactory loggerFactory = null)
+            : this(callStoreId, callStoreName, host)
+        {
+            if (auth == null)
+                throw new ArgumentNullException(nameof(auth));
+
+            _handler = new ApiClientHandler(auth, loggerFactory ?? NullLoggerFactory.Instance);
+        }
+
+        public CallStoreJsonRPCClient(string callStoreId, string callStoreName, string host, PasswordFlowAutorize auth, ILoggerFactory loggerFactory = null)
+            : this(callStoreId, callStoreName, host)
+        {
+            if (auth == null)
+                throw new ArgumentNullException(nameof(auth));
+
+            var domainUrl = new Uri(Host, UriKind.Absolute).GetLeftPart(UriPartial.Authority);
+            _handler = new ApiClientHandler(domainUrl, auth, loggerFactory ?? NullLoggerFactory.Instance);
+        }
+
+        public CallStoreJsonRPCClient(string callStoreId, string callStoreName, string host, BearerAuthorize auth, ILoggerFactory loggerFactory = null)
+            : this(callStoreId, callStoreName, host)
+        {
+            if (auth == null)
+                throw new ArgumentNullException(nameof(auth));
+
+            _handler = new ApiClientHandler(auth, loggerFactory ?? NullLoggerFactory.Instance);
+        }
+
+        public CallStoreJsonRPCClient(string callStoreId, string callStoreName, string host, ApiKeyAuthorize auth, ILoggerFactory loggerFactory = null)
+            : this(callStoreId, callStoreName, host)
+        {
+            if (auth == null)
+                throw new ArgumentNullException(nameof(auth));
+
+            _handler = new ApiClientHandler(auth, loggerFactory ?? NullLoggerFactory.Instance);
+        }
+
+        private CallStoreJsonRPCClient(string callStoreId, string callStoreName, string host)
         {
             if (string.IsNullOrWhiteSpace(host))
                 throw new ArgumentNullException(nameof(host));
 
             CallStoreId = callStoreId;
             Host = host.TrimEnd('/');
-            Username = username;
-            Password = password;
-            AuthType = authType;
             CallStoreName = callStoreName;
         }
 
@@ -80,12 +130,20 @@ namespace AbrPlus.Integration.OpenCRM.Client.JsonRPC
         }
         public Task<string> GetCallerIdName(string phoneNumber)
         {
-            return SendAsync<object, string>("call", "callerIdName", new { phoneNumber }, CancellationToken.None);
+            return SendAsync<object, string>(
+                "call", 
+                "callerIdName", 
+                new { phoneNumber }, 
+                CancellationToken.None);
         }
 
         public Task<string> GetProfileUrlFormat()
         {
-            return SendAsync<object, string>("call", "profileUrlFormat", null, CancellationToken.None);
+            return SendAsync<object, string>(
+                "call", 
+                "profileUrlFormat", 
+                null, 
+                CancellationToken.None);
         }
 
         protected virtual async Task<TResponse> SendAsync<TRequest, TResponse>(
@@ -111,9 +169,7 @@ namespace AbrPlus.Integration.OpenCRM.Client.JsonRPC
             {
                 httpRequest.Content = JsonContentFactory.Create(rpcRequest);
 
-                ApplyAuthentication(httpRequest);
-
-                using (var httpClient = new HttpClient())
+                using (var httpClient = CreateClient())
                 {
                     using (var httpResponse = await httpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false))
                     {
@@ -156,15 +212,30 @@ namespace AbrPlus.Integration.OpenCRM.Client.JsonRPC
             }
         }
 
-        protected virtual void ApplyAuthentication(HttpRequestMessage request)
+        protected virtual HttpClient CreateClient()
         {
-            if (AuthType == AuthType.Basic)
-            {
-                var raw = string.Format("{0}:{1}", Username, Password);
-                var encoded = Convert.ToBase64String(Encoding.ASCII.GetBytes(raw));
+            if (_disposed)
+                throw new ObjectDisposedException(GetType().Name);
 
-                request.Headers.Authorization = new AuthenticationHeaderValue("Basic", encoded);
-            }
+            return _handler == null ? new HttpClient() : new HttpClient(_handler, disposeHandler: false);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposing || _disposed)
+                return;
+
+            _disposed = true;
+
+            // ApiClientHandler 1.1.26 leaves disposal of its transport to the owner.
+            _handler?.InnerHandler?.Dispose();
+            _handler?.Dispose();
         }
     }
 }

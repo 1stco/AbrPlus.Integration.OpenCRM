@@ -19,6 +19,24 @@ namespace AbrPlus.Integration.OpenCRM.Client.AbrPlus
             CallStoreName = callStoreName;
             _abrPlusClient = new AbrPlusClient(baseUrl, passwordFlow, loggerFactory);
         }
+        public CallStoreApiAbrPlusClient(string callStoreId, string callStoreName, string baseUrl, BearerAuthorize auth, ILoggerFactory loggerFactory)
+        {
+            CallStoreId = callStoreId;
+            CallStoreName = callStoreName;
+            _abrPlusClient = new AbrPlusClient(baseUrl, auth, loggerFactory);
+        }
+        public CallStoreApiAbrPlusClient(string callStoreId, string callStoreName, string baseUrl, ApiKeyAuthorize auth, ILoggerFactory loggerFactory)
+        {
+            CallStoreId = callStoreId;
+            CallStoreName = callStoreName;
+            _abrPlusClient = new AbrPlusClient(baseUrl, auth, loggerFactory);
+        }
+        public CallStoreApiAbrPlusClient(string callStoreId, string callStoreName, string baseUrl, BasicAuthorize auth, ILoggerFactory loggerFactory)
+        {
+            CallStoreId = callStoreId;
+            CallStoreName = callStoreName;
+            _abrPlusClient = new AbrPlusClient(baseUrl, auth, loggerFactory);
+        }
         public async Task<CallCreateResponse> CallCreated(CallCreateRequest callCreateRequest)
         {
             try
