@@ -78,6 +78,16 @@ namespace AbrPlus.Integration.OpenCRM.Client.JsonRPC
                 mergeCallRequest,
                 CancellationToken.None);
         }
+        public Task<string> GetCallerIdName(string phoneNumber)
+        {
+            return SendAsync<object, string>("call", "callerIdName", new { phoneNumber }, CancellationToken.None);
+        }
+
+        public Task<string> GetProfileUrlFormat()
+        {
+            return SendAsync<object, string>("call", "profileUrlFormat", null, CancellationToken.None);
+        }
+
         protected virtual async Task<TResponse> SendAsync<TRequest, TResponse>(
             string category,
             string method,

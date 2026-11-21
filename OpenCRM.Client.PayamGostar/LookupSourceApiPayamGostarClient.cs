@@ -4,6 +4,7 @@ using AbrPlus.Integration.OpenCRM.Responses;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using PayamGostarClient;
 using PgContractService;
 using PgCrmObjectService;
 using PgCrmObjectType;
@@ -24,6 +25,13 @@ namespace AbrPlus.Integration.OpenCRM.Client.PayamGostar
 {
     public class LookupSourceApiPayamGostarClient : CallStoreApiPayamGostarClient, ILookupSourceApiClient
     {
+        private IPgClient _pgClient;
+        private DateTime _nextClientCreateDate;
+        private readonly string _host;
+        private readonly string _username;
+        private readonly string _password;
+        private readonly ILogger _logger;
+
         public LookupSourceApiPayamGostarClient(string lookupSourceId,
                                                 string callStoreName,
                                                 string host,
@@ -32,43 +40,69 @@ namespace AbrPlus.Integration.OpenCRM.Client.PayamGostar
                                                 ILoggerFactory loggerFactory)
             : base(lookupSourceId, callStoreName, host, username, password, loggerFactory)
         {
+            _host = host;
+            _username = username;
+            _password = password;
+            _logger = loggerFactory.CreateLogger(GetType().Name);
+        }
+
+        protected IPgClient MyIPgClient
+        {
+            get
+            {
+                if (_pgClient == null || _nextClientCreateDate < DateTime.Now)
+                {
+                    _pgClient = Create(_host, _username, _password);
+                    _nextClientCreateDate = DateTime.Now.AddHours(1);
+                }
+
+                return _pgClient;
+            }
+        }
+        private IPgClient Create(string endPointAddress, string userName, string password)
+        {
+            return new PgClientFactory().Create(endPointAddress, new PgCredentials()
+            {
+                Username = userName,
+                Password = password
+            });
         }
 
         public ICrmObjectTypeChannel CreateCrmObjectTypeClient()
         {
-            return new PayamgostarApiClientFactory<ICrmObjectTypeChannel>().Create(Host);
+            return new PayamgostarApiClientFactory<ICrmObjectTypeChannel>().Create(_host);
         }
         public ICrmObjectChannel CreateCrmObjectClient()
         {
-            return new PayamgostarApiClientFactory<ICrmObjectChannel>().Create(Host);
+            return new PayamgostarApiClientFactory<ICrmObjectChannel>().Create(_host);
         }
         public IIdentityChannel CreateIdentityClient()
         {
-            return new PayamgostarApiClientFactory<IIdentityChannel>().Create(Host);
+            return new PayamgostarApiClientFactory<IIdentityChannel>().Create(_host);
         }
         public IUserChannel CreateUserClient()
         {
-            return new PayamgostarApiClientFactory<IUserChannel>().Create(Host);
+            return new PayamgostarApiClientFactory<IUserChannel>().Create(_host);
         }
         public IContractChannel CreateContractClient()
         {
-            return new PayamgostarApiClientFactory<IContractChannel>().Create(Host);
+            return new PayamgostarApiClientFactory<IContractChannel>().Create(_host);
         }
         public IEpayChannel CreateEpayClient()
         {
-            return new PayamgostarApiClientFactory<IEpayChannel>().Create(Host);
+            return new PayamgostarApiClientFactory<IEpayChannel>().Create(_host);
         }
         public IInvoiceChannel CreateInvoiceClient()
         {
-            return new PayamgostarApiClientFactory<IInvoiceChannel>().Create(Host);
+            return new PayamgostarApiClientFactory<IInvoiceChannel>().Create(_host);
         }
         public IPaymentChannel CreatePaymnetClient()
         {
-            return new PayamgostarApiClientFactory<IPaymentChannel>().Create(Host);
+            return new PayamgostarApiClientFactory<IPaymentChannel>().Create(_host);
         }
         public IMoneyAccountChannel CreateMoneyAccountClient()
         {
-            return new PayamgostarApiClientFactory<IMoneyAccountChannel>().Create(Host);
+            return new PayamgostarApiClientFactory<IMoneyAccountChannel>().Create(_host);
         }
         private PaymentResponse GetReceiptInfo(CustomerRequest customerRequest, string billableObjectTypeKey, string billableObjectNumber, string lookupNumberFieldKey, string valueFieldKey)
         {
@@ -95,8 +129,8 @@ namespace AbrPlus.Integration.OpenCRM.Client.PayamGostar
 
             using (var paymentChannel = CreatePaymnetClient())
             {
-                var paymentInfoResult = paymentChannel.SearchReceipt(Username,
-                                                                     Password,
+                var paymentInfoResult = paymentChannel.SearchReceipt(_username,
+                                                                     _password,
                                                                      billableObjectTypeKey,
                                                                      query);
                 if (paymentInfoResult.Success &&
@@ -157,8 +191,8 @@ namespace AbrPlus.Integration.OpenCRM.Client.PayamGostar
 
             using (var paymentChannel = CreatePaymnetClient())
             {
-                var paymentInfoResult = paymentChannel.SearchPayment(Username,
-                                                                     Password,
+                var paymentInfoResult = paymentChannel.SearchPayment(_username,
+                                                                     _password,
                                                                      billableObjectTypeKey,
                                                                      query);
                 if (paymentInfoResult.Success &&
@@ -216,8 +250,8 @@ namespace AbrPlus.Integration.OpenCRM.Client.PayamGostar
 
             using (var invoiceChannel = CreateInvoiceClient())
             {
-                var invoiceInfoResult = invoiceChannel.SearchQuote(Username,
-                                                                     Password,
+                var invoiceInfoResult = invoiceChannel.SearchQuote(_username,
+                                                                     _password,
                                                                      billableObjectTypeKey,
                                                                      query);
                 if (invoiceInfoResult.Success &&
@@ -275,8 +309,8 @@ namespace AbrPlus.Integration.OpenCRM.Client.PayamGostar
 
             using (var invoiceChannel = CreateInvoiceClient())
             {
-                var invoiceInfoResult = invoiceChannel.SearchPurchaseInvoice(Username,
-                                                                     Password,
+                var invoiceInfoResult = invoiceChannel.SearchPurchaseInvoice(_username,
+                                                                     _password,
                                                                      billableObjectTypeKey,
                                                                      query);
                 if (invoiceInfoResult.Success &&
@@ -334,8 +368,8 @@ namespace AbrPlus.Integration.OpenCRM.Client.PayamGostar
 
             using (var invoiceChannel = CreateInvoiceClient())
             {
-                var invoiceInfoResult = invoiceChannel.SearchReturnPurchaseInvoice(Username,
-                                                                     Password,
+                var invoiceInfoResult = invoiceChannel.SearchReturnPurchaseInvoice(_username,
+                                                                     _password,
                                                                      billableObjectTypeKey,
                                                                      query);
                 if (invoiceInfoResult.Success &&
@@ -393,8 +427,8 @@ namespace AbrPlus.Integration.OpenCRM.Client.PayamGostar
 
             using (var invoiceChannel = CreateInvoiceClient())
             {
-                var invoiceInfoResult = invoiceChannel.SearchReturnSaleInvoice(Username,
-                                                                     Password,
+                var invoiceInfoResult = invoiceChannel.SearchReturnSaleInvoice(_username,
+                                                                     _password,
                                                                      billableObjectTypeKey,
                                                                      query);
                 if (invoiceInfoResult.Success &&
@@ -455,8 +489,8 @@ namespace AbrPlus.Integration.OpenCRM.Client.PayamGostar
 
             using (var invoiceChannel = CreateInvoiceClient())
             {
-                var invoiceInfoResult = invoiceChannel.SearchPurchaseQuote(Username,
-                                                                     Password,
+                var invoiceInfoResult = invoiceChannel.SearchPurchaseQuote(_username,
+                                                                     _password,
                                                                      billableObjectTypeKey,
                                                                      query);
                 if (invoiceInfoResult.Success &&
@@ -514,8 +548,8 @@ namespace AbrPlus.Integration.OpenCRM.Client.PayamGostar
 
             using (var invoiceChannel = CreateInvoiceClient())
             {
-                var invoiceInfoResult = invoiceChannel.SearchInvoice(Username,
-                                                                     Password,
+                var invoiceInfoResult = invoiceChannel.SearchInvoice(_username,
+                                                                     _password,
                                                                      billableObjectTypeKey,
                                                                      query);
                 if (invoiceInfoResult.Success &&
@@ -574,8 +608,8 @@ namespace AbrPlus.Integration.OpenCRM.Client.PayamGostar
 
             using (var contractChannel = CreateContractClient())
             {
-                var contractInfoResult = contractChannel.SearchContract(Username,
-                                                                        Password,
+                var contractInfoResult = contractChannel.SearchContract(_username,
+                                                                        _password,
                                                                         billableObjectTypeKey,
                                                                         query);
                 if (contractInfoResult.Success &&
@@ -615,7 +649,7 @@ namespace AbrPlus.Integration.OpenCRM.Client.PayamGostar
             {
                 using (var crmObjectType = CreateCrmObjectTypeClient())
                 {
-                    var lstCrmObjectType = crmObjectType.GetCrmObjectTypeList(Username, Password, null);
+                    var lstCrmObjectType = crmObjectType.GetCrmObjectTypeList(_username, _password, null);
                     if (lstCrmObjectType != null && lstCrmObjectType.CrmObjectTypeList != null && lstCrmObjectType.CrmObjectTypeList.Length > 0)
                     {
                         var crmObjectTypes = new[]
@@ -660,7 +694,7 @@ namespace AbrPlus.Integration.OpenCRM.Client.PayamGostar
             {
                 using (var moneyAccountChannel = CreateMoneyAccountClient())
                 {
-                    var moneyAccountListInfo = moneyAccountChannel.GetMoneyAccountList(Username, Password, 0, 50);
+                    var moneyAccountListInfo = moneyAccountChannel.GetMoneyAccountList(_username, _password, 0, 50);
                     if (moneyAccountListInfo != null && moneyAccountListInfo.Items != null && moneyAccountListInfo.Items.Length > 0)
                     {
                         var lstmoneyAccounts = moneyAccountListInfo.Items.Where(x => x.UserKey != "");
@@ -695,7 +729,7 @@ namespace AbrPlus.Integration.OpenCRM.Client.PayamGostar
                 {
                     using (var identityChannel = CreateIdentityClient())
                     {
-                        return await Task.FromResult(identityChannel.FindIdentityById(Username, Password, customerId).IdentityInfo.ToDto());
+                        return await Task.FromResult(identityChannel.FindIdentityById(_username, _password, customerId).IdentityInfo.ToDto());
                     }
                 }
                 if (string.IsNullOrEmpty(customerRequest.CustomerNo))
@@ -711,13 +745,13 @@ namespace AbrPlus.Integration.OpenCRM.Client.PayamGostar
             _logger.LogDebug("GetIdentityByCustomerInfo result is null. {@customerRequest}", customerRequest);
             return null;
         }
-        public Task<IdentityResponse> GetIdentityByPhoneNumber(IdentityByPhoneNumberRequest identityByPhoneNumberRequest)
+        public async Task<IdentityResponse> GetIdentityByPhoneNumber(IdentityByPhoneNumberRequest identityByPhoneNumberRequest)
         {
             try
             {
                 using (var identityChannel = CreateIdentityClient())
                 {
-                    return Task.FromResult(identityChannel.FindIdentityByPhoneNumber(Username, Password, identityByPhoneNumberRequest.PhoneNumber).IdentityInfo.ToDto());
+                    return await Task.FromResult(identityChannel.FindIdentityByPhoneNumber(_username, _password, identityByPhoneNumberRequest.PhoneNumber).IdentityInfo.ToDto());
                 }
             }
             catch (Exception ex)
@@ -734,7 +768,7 @@ namespace AbrPlus.Integration.OpenCRM.Client.PayamGostar
             {
                 using (var identityChannel = CreateIdentityClient())
                 {
-                    var result = identityChannel.SearchIdentity(Username, Password, string.Empty,
+                    var result = identityChannel.SearchIdentity(_username, _password, string.Empty,
                         $"CustomerNumber==\"{identityByCustomerNumberRequest.CustomerNumber}\"");
                     if (result.Success)
                     {
@@ -763,7 +797,7 @@ namespace AbrPlus.Integration.OpenCRM.Client.PayamGostar
             {
                 using (var contractChannel = CreateContractClient())
                 {
-                    var contracts = contractChannel.SearchContract(Username, Password, identityHasValidContractRequest.ContractKey,
+                    var contracts = contractChannel.SearchContract(_username, _password, identityHasValidContractRequest.ContractKey,
                         $"IdentityId==\"{identityHasValidContractRequest.CustomerRequest.CustomerId}\"");
                     if (!contracts.Success)
                     {
@@ -806,7 +840,7 @@ namespace AbrPlus.Integration.OpenCRM.Client.PayamGostar
             {
                 using (var userChannel = CreateUserClient())
                 {
-                    return await Task.FromResult(userChannel.GetUserByIdentityId(Username, Password, new Guid(userInfoByIdentityRequest.IdentityId)).ToDto());
+                    return await Task.FromResult(userChannel.GetUserByIdentityId(_username, _password, new Guid(userInfoByIdentityRequest.IdentityId)).ToDto());
                 }
             }
             catch (Exception ex)
@@ -825,7 +859,7 @@ namespace AbrPlus.Integration.OpenCRM.Client.PayamGostar
             {
                 using (var userChannel = CreateUserClient())
                 {
-                    return await Task.FromResult(userChannel.GetUserExtensions(Username, Password, userExtenstionsRequest.Username).ToDto());
+                    return await Task.FromResult(userChannel.GetUserExtensions(_username, _password, userExtenstionsRequest.Username).ToDto());
                 }
             }
             catch (Exception ex)
@@ -844,7 +878,7 @@ namespace AbrPlus.Integration.OpenCRM.Client.PayamGostar
             {
                 using (var userChannel = CreateUserClient())
                 {
-                    var userTelephonySystemInfo = userChannel.GetUserExtensions(Username, Password, userExtensionRequest.Username);
+                    var userTelephonySystemInfo = userChannel.GetUserExtensions(_username, _password, userExtensionRequest.Username);
                     if (userTelephonySystemInfo != null &&
                         userTelephonySystemInfo.TelephonySystems != null &&
                         userTelephonySystemInfo.TelephonySystems.Length > 0)
@@ -889,8 +923,8 @@ namespace AbrPlus.Integration.OpenCRM.Client.PayamGostar
             {
                 using (var userChannel = CreateUserClient())
                 {
-                    var result = userChannel.GetUserHelperExtensionBy(Username,
-                                                                      Password,
+                    var result = userChannel.GetUserHelperExtensionBy(_username,
+                                                                      _password,
                                                                       userManagerByExtensionRequest.UserExtenstion);
                     if (result.Success)
                         return await Task.FromResult(new UserExtensionResponse { Extension = result.HelperExtension });
@@ -913,7 +947,7 @@ namespace AbrPlus.Integration.OpenCRM.Client.PayamGostar
                 {
                     using (var identityChannel = CreateIdentityClient())
                     {
-                        var identityInfoResult = identityChannel.FindIdentityById(Username, Password, new Guid(customerRequest.CustomerId));
+                        var identityInfoResult = identityChannel.FindIdentityById(_username, _password, new Guid(customerRequest.CustomerId));
                         if (identityInfoResult.Success &&
                             identityInfoResult.IdentityInfo != null &&
                             identityInfoResult.IdentityInfo.Balance.HasValue &&
@@ -940,8 +974,8 @@ namespace AbrPlus.Integration.OpenCRM.Client.PayamGostar
             {
                 using (var crmObjectTypeChannel = CreateCrmObjectTypeClient())
                 {
-                    return await Task.FromResult(crmObjectTypeChannel.GetCardtable(Username,
-                                                             Password,
+                    return await Task.FromResult(crmObjectTypeChannel.GetCardtable(_username,
+                                                             _password,
                                                              null,
                                                              null,
                                                              cardtableRequest.CrmObjectTypeKey,
@@ -971,14 +1005,14 @@ namespace AbrPlus.Integration.OpenCRM.Client.PayamGostar
             var crmId = string.Empty;
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri(Host);
+                client.BaseAddress = new Uri(_host);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 var formContent = new FormUrlEncodedContent(new[]
                 {
                   new KeyValuePair<string, string>("grant_type", "password"),
-                  new KeyValuePair<string, string>("username", Username),
-                  new KeyValuePair<string, string>("password", Password),
+                  new KeyValuePair<string, string>("username", _username),
+                  new KeyValuePair<string, string>("password", _password),
                 });
 
                 HttpResponseMessage responseMessage = await client.PostAsync("/api/v2/auth/login", formContent);
@@ -1004,7 +1038,7 @@ namespace AbrPlus.Integration.OpenCRM.Client.PayamGostar
             {
                 using (var crmObjectType = CreateCrmObjectTypeClient())
                 {
-                    var crmObjectTypeInfo = crmObjectType.GetCrmObjectTypeInfo(Username, Password, billableObjectTypePropsRequest.BillableObjectTypeKey);
+                    var crmObjectTypeInfo = crmObjectType.GetCrmObjectTypeInfo(_username, _password, billableObjectTypePropsRequest.BillableObjectTypeKey);
                     if (crmObjectTypeInfo != null &&
                         crmObjectTypeInfo.PropertyGroups != null &&
                         crmObjectTypeInfo.PropertyGroups.Length > 0 &&
@@ -1045,7 +1079,7 @@ namespace AbrPlus.Integration.OpenCRM.Client.PayamGostar
             {
                 using (var crmObjectType = CreateCrmObjectTypeClient())
                 {
-                    var crmObjectTypeInfo = crmObjectType.GetCrmObjectTypeInfo(Username, Password, paymentInfoRequest.BillableObjectTypeKey);
+                    var crmObjectTypeInfo = crmObjectType.GetCrmObjectTypeInfo(_username, _password, paymentInfoRequest.BillableObjectTypeKey);
                     if (crmObjectTypeInfo != null)
                     {
                         _logger.LogDebug("PayamgostarLookupSourceService GetPaymentInfo. CustomerRequest:{@CustomerRequest}, billableObjectTypeKey:{@billableObjectTypeKey}, billableObjectNumber:{@billableObjectNumber}, lookupNumberFieldKey:{@lookupNumberFieldKey}, valueFieldKey:{@valueFieldKey}, CrmObjectType:{@CrmObjectType}", paymentInfoRequest.CustomerRequest, paymentInfoRequest.BillableObjectTypeKey, paymentInfoRequest.BillableObjectNumber, paymentInfoRequest.LookupNumberFieldKey, paymentInfoRequest.ValueFieldKey, crmObjectTypeInfo.CrmObjectType);
@@ -1151,7 +1185,7 @@ namespace AbrPlus.Integration.OpenCRM.Client.PayamGostar
                 };
                 using (var epayChannel = CreateEpayClient())
                 {
-                    var paymentLinkInfoResult = epayChannel.CreatePaymentLink(Username, Password, paymentLinkInfo);
+                    var paymentLinkInfoResult = epayChannel.CreatePaymentLink(_username, _password, paymentLinkInfo);
                     _logger.LogDebug("SendPaymentLinkToUser, paymentLinkInfoResult:{@paymentLinkInfoResult}", paymentLinkInfoResult);
                     if (paymentLinkInfoResult.Success)
                     {

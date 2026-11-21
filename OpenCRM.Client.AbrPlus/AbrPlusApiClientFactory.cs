@@ -14,7 +14,7 @@ using System.ServiceModel;
 
 namespace AbrPlus.Integration.OpenCRM.Client.AbrPlus
 {
-    class PayamgostarApiClientFactory<TContract>
+    class AbrPlusApiClientFactory<TContract>
     {
         public TContract Create(string endPointAddress)
         {

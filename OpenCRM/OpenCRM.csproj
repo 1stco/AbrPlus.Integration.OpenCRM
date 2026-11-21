@@ -7,9 +7,9 @@
     <Company>AbrPlus</Company>
     <Authors>AbrPlus</Authors>
     <Owners>AbrPlus</Owners>
-    <Version>1.0.22</Version>
-    <AssemblyVersion>1.0.22</AssemblyVersion>
-    <FileVersion>1.0.22</FileVersion>
+    <Version>1.0.23</Version>
+    <AssemblyVersion>1.0.23</AssemblyVersion>
+    <FileVersion>1.0.23</FileVersion>
     <Description>Copyright © AbrPlus 2026</Description>
     <RepositoryUrl>https://github.com/1stco/AbrPlus.Integration.OpenCRM</RepositoryUrl>
     <Description>The core interfaces and contracts that any CRM or ERP should implements them for integrating with AbrPlus Telephony system modules</Description>

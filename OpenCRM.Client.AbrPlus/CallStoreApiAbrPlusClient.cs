@@ -11,7 +11,7 @@ namespace AbrPlus.Integration.OpenCRM.Client.AbrPlus
     {
         public virtual string CallStoreId { get; }
         public virtual string CallStoreName { get; }
-      
+
         private readonly AbrPlusClient _abrPlusClient;
         public CallStoreApiAbrPlusClient(string callStoreId, string callStoreName, string baseUrl, PasswordFlowAutorize passwordFlow, ILoggerFactory loggerFactory)
         {
@@ -93,5 +93,30 @@ namespace AbrPlus.Integration.OpenCRM.Client.AbrPlus
             }
         }
 
+        public async Task<string> GetCallerIdName(string phoneNumber)
+        {
+            try
+            {
+                return await _abrPlusClient.General.IdentityApiClientApi.IdentityApi_GetCallerIdNameAsync(phoneNumber);
+            }
+            catch (System.Exception ex)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<string> GetProfileUrlFormat()
+        {
+            try
+            {
+                return await _abrPlusClient.General.IdentityApiClientApi.IdentityApi_GetProfileUrlFormatAsync();
+            }
+            catch (System.Exception ex)
+            {
+
+                throw;
+            }
+        }
     }
 }

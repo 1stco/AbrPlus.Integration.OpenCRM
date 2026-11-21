@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AbrPlus.Integration.OpenCRM.Client.REST
 {
-    public class LookupSourceApiRestClient : CallStoreApiRestClient, ILookupSourceApiClient, ILookupSourceApiRestClient
+    public class LookupSourceApiRestClient : CallStoreApiClient, ILookupSourceApiClient, ILookupSourceApiRestClient
     {
 
         public LookupSourceApiRestClient(string lookupSourceId, string callStoreName, string host, string username, string password, AuthType authType)
@@ -30,7 +30,7 @@ namespace AbrPlus.Integration.OpenCRM.Client.REST
                 var api = RestService.For<ILookupSourceApiRestClient>(client);
                 return await api.GetBillableObjectTypeProps(billableObjectTypePropsRequest);
             }
-        }
+        } 
 
         public async Task<BillableObjectTypesResponse> GetBillableObjectTypes()
         {

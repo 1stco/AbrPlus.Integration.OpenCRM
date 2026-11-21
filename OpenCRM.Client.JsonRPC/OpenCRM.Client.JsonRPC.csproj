@@ -7,9 +7,9 @@
     <Company>AbrPlus</Company>
     <Authors>AbrPlus</Authors>
     <Owners>AbrPlus</Owners>
-    <Version>1.0.22</Version>
-    <AssemblyVersion>1.0.22</AssemblyVersion>
-    <FileVersion>1.0.22</FileVersion>
+    <Version>1.0.23</Version>
+    <AssemblyVersion>1.0.23</AssemblyVersion>
+    <FileVersion>1.0.23</FileVersion>
     <Description>Copyright © AbrPlus 2026</Description>
     <RepositoryUrl>https://github.com/1stco/AbrPlus.Integration.OpenCRM</RepositoryUrl>
     <Description>Client for JsonRPC implementation of AbrPlus OpenCRM contracts with supporting basic authentication</Description>
@@ -22,7 +22,7 @@
   </PropertyGroup>
   
   <ItemGroup>
-	  <PackageReference Include="AbrPlus.Integration.OpenCRM" Version="1.0.22" />
+	  <PackageReference Include="AbrPlus.Integration.OpenCRM" Version="1.0.23" />
 	  <PackageReference Include="System.Text.Json" Version="8.0.6" />
   </ItemGroup>
 

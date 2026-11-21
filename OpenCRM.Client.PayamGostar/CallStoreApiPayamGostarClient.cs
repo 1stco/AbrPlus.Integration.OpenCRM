@@ -1,230 +1,140 @@
-﻿using AbrPlus.Integration.OpenCRM.Requests;
+﻿using AbrPlus.Integration.OpenCRM.Client.PayamGostar.Mapper;
+using AbrPlus.Integration.OpenCRM.Requests;
 using AbrPlus.Integration.OpenCRM.Responses;
 using Microsoft.Extensions.Logging;
-using PayamGostarClient;
-using PayamGostarClient.TelephonySystem;
-using AbrPlus.Integration.Telephony.Enums;
-using System;
+using Payamgostar.Client;
 using System.Threading.Tasks;
-using ChannelResponse = AbrPlus.Integration.Telephony.Enums.ChannelResponse;
 
 namespace AbrPlus.Integration.OpenCRM.Client.PayamGostar
 {
     public class CallStoreApiPayamGostarClient : ICallStoreApiClient
     {
-        private IPgClient _pgClient;
-        private DateTime _nextClientCreateDate;
-        protected readonly ILogger _logger;
-
         public virtual string CallStoreId { get; }
         public virtual string CallStoreName { get; }
-        protected string Host { get; }
-        protected string Username { get; }
-        protected string Password { get; }
 
+        private readonly PayamgostarClient _abrPlusClient;
         public CallStoreApiPayamGostarClient(string callStoreId, string callStoreName, string host, string username, string password, ILoggerFactory loggerFactory)
         {
             CallStoreId = callStoreId;
             CallStoreName = callStoreName;
-            Host = host;
-            Username = username;
-            Password = password;
-            _logger = loggerFactory.CreateLogger(GetType().Name);
+            _abrPlusClient = new PayamgostarClient(host, new BasicAuthorize { UserName = username, Password = password }, loggerFactory);
         }
-        protected IPgClient MyIPgClient
+        public CallStoreApiPayamGostarClient(string callStoreId, string callStoreName, string host, BasicAuthorize basicAuthorize, ILoggerFactory loggerFactory)
         {
-            get
+            CallStoreId = callStoreId;
+            CallStoreName = callStoreName;
+            _abrPlusClient = new PayamgostarClient(host, basicAuthorize, loggerFactory);
+        }
+        public CallStoreApiPayamGostarClient(string callStoreId, string callStoreName, string host, PasswordFlowAutorize passwordFlowAutorize, ILoggerFactory loggerFactory)
+        {
+            CallStoreId = callStoreId;
+            CallStoreName = callStoreName;
+            _abrPlusClient = new PayamgostarClient(host, passwordFlowAutorize, loggerFactory);
+        }
+        public CallStoreApiPayamGostarClient(string callStoreId, string callStoreName, string host, BearerAuthorize bearerAuthorize, ILoggerFactory loggerFactory)
+        {
+            CallStoreId = callStoreId;
+            CallStoreName = callStoreName;
+            _abrPlusClient = new PayamgostarClient(host, bearerAuthorize, loggerFactory);
+        }
+        public async Task<CallCreateResponse> CallCreated(CallCreateRequest callCreateRequest)
+        {
+            try
             {
-                if (_pgClient == null || _nextClientCreateDate < DateTime.Now)
+
+                return (await _abrPlusClient.Telephony.TelephonySystemCallClientApi.TelephonySystemCall_CallCreateAsync(callCreateRequest.ToVm())).ToResponse();
+
+            }
+            catch (System.Exception ex)
+            {
+
+                throw;
+            }
+        }
+        public async Task<CallUpdateResponse> CallUpdated(CallUpdateRequest callUpdateRequest)
+        {
+            try
+            {
+                return (await _abrPlusClient.Telephony.TelephonySystemCallClientApi.TelephonySystemCall_CallUpdateAsync(callUpdateRequest.ToVm())).ToResponse();
+
+            }
+            catch (System.Exception ex)
+            {
+
+                throw;
+            }
+        }
+        public async Task<CallChannelCreateResponse> CallChannelCreated(CallChannelCreateRequest callChannelCreateRequest)
+        {
+
+            try
+            {
+                return (await _abrPlusClient.Telephony.TelephonySystemCallChannelClientApi.TelephonySystemCallChannel_CreateAsync(callChannelCreateRequest.ToVm())).ToResponse();
+
+            }
+            catch (System.Exception ex)
+            {
+
+                throw;
+            }
+        }
+        public async Task<CallChannelUpdateResponse> CallChannelUpdated(CallChannelUpdateRequest callChannelUpdateRequest)
+        {
+            try
+            {
+                await _abrPlusClient.Telephony.TelephonySystemCallChannelClientApi.TelephonySystemCallChannel_UpdateAsync(callChannelUpdateRequest.ToVm());
+                return new CallChannelUpdateResponse()
                 {
-                    _pgClient = Create(Host, Username, Password);
-                    _nextClientCreateDate = DateTime.Now.AddHours(1);
-                }
+                    CallChannelId = callChannelUpdateRequest.ChannelId,
+                };
+            }
+            catch (System.Exception ex)
+            {
 
-                return _pgClient;
+                throw;
             }
         }
-        private IPgClient Create(string endPointAddress, string userName, string password)
+        public async Task<MergeCallResponse> MergeCall(MergeCallRequest mergeCallRequest)
         {
-            return new PgClientFactory().Create(endPointAddress, new PgCredentials()
+            try
             {
-                Username = userName,
-                Password = password
-            });
-        }
-
-        private PhoneCallType ConvertToPgCallType(CallType phoneCallType, CallResult callResult)
-        {
-            switch (phoneCallType)
-            {
-                case CallType.Incoming:
-                    return callResult == CallResult.Answered
-                            ? PhoneCallType.ReceivedCall
-                            : PhoneCallType.MissedCall;
-                case CallType.Outgoing:
-                    return PhoneCallType.OutgoingCall;
-                case CallType.Internal:
-                    return PhoneCallType.Internal;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                await _abrPlusClient.Telephony.TelephonySystemCallClientApi.TelephonySystemCall_CallMergeAsync(mergeCallRequest.ToVm());
+                return new MergeCallResponse()
+                {
+                    Merged = true
+                };
             }
-        }
-        private TelephonySystemPeerType ConvertToPgPeerType(PeerType channelOwnerType)
-        {
-            switch (channelOwnerType)
+            catch (System.Exception ex)
             {
-                case PeerType.Trunk:
-                    return TelephonySystemPeerType.Trunk;
-                case PeerType.Extension:
-                    return TelephonySystemPeerType.Extension;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-        private PayamGostarClient.TelephonySystem.ChannelResponse ConvertToPgChannelResponseType(ChannelResponse channelResponse)
-        {
-            switch (channelResponse)
-            {
-                case ChannelResponse.Answered:
-                    return PayamGostarClient.TelephonySystem.ChannelResponse.Answered;
 
-                case ChannelResponse.Busy:
-                    return PayamGostarClient.TelephonySystem.ChannelResponse.Busy;
-
-                case ChannelResponse.Transfered:
-                    return PayamGostarClient.TelephonySystem.ChannelResponse.Transfered;
-
-                case ChannelResponse.NotAnswered:
-                case ChannelResponse.Failed:
-                case ChannelResponse.Unavailable:
-                    return PayamGostarClient.TelephonySystem.ChannelResponse.NotAnswered;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-        private ChannelStatus ConvertToPgChannelStatusType(ChannelState channelState)
-        {
-            switch (channelState)
-            {
-                case ChannelState.Down:
-                case ChannelState.OffHook:
-                case ChannelState.Unknown:
-                case ChannelState.Busy:
-                    return ChannelStatus.Down;
-                case ChannelState.PreRing:
-                case ChannelState.Ring:
-                case ChannelState.Ringing:
-                case ChannelState.Dialing:
-                case ChannelState.DialingOffhook:
-                    return ChannelStatus.Ringing;
-                case ChannelState.Up:
-                    return ChannelStatus.Up;
-                case ChannelState.Hangedup:
-                    return ChannelStatus.HangUp;
-                default:
-                    throw new ArgumentOutOfRangeException($"Error in converting channelStatus to PayamGostarChannelStatus: {nameof(channelState)}:{channelState}");
+                throw;
             }
         }
 
-        public Task<CallCreateResponse> CallCreated(CallCreateRequest callCreateRequest)
+        public async Task<string> GetCallerIdName(string phoneNumber)
         {
-            var callCreateResult = MyIPgClient.GetTelephonySystem().CallCreate(new CallCreateModel()
+            try
             {
-                TsKey = callCreateRequest.TsKey,
-                SourceId = callCreateRequest.RefCallId,
-                PhoneNumber = callCreateRequest.Number,
-                StartDate = callCreateRequest.Date,
-                CallTypeIndex = ConvertToPgCallType(callCreateRequest.CallType, callCreateRequest.CallResult),
-                InitChannelSourceId = callCreateRequest.RefInitCallChannelId,
-                InitChannelPeerName = callCreateRequest.InitCallChannelPeerName,
-                InitChannelPeerTypeIndex = ConvertToPgPeerType(callCreateRequest.InitCallChannelPeerType),
-                IsLive = callCreateRequest.IsLive
-            });
-            CallCreateResponse response = new CallCreateResponse()
+                return await _abrPlusClient.General.IdentityApiClientApi.IdentityApi_GetCallerIdNameAsync(phoneNumber);
+            }
+            catch (System.Exception ex)
             {
-                CallId = callCreateResult.CallId.ToString(),
-                InitCallChannelId = callCreateResult.InitChannelId.ToString(),
-                IdentityId = callCreateResult.IdentityId.HasValue ? callCreateResult.IdentityId.ToString() : null,
-                IdentityName = callCreateResult.IdentityNickName,
-            };
-            return Task.FromResult(response);
-        }
-        public Task<CallUpdateResponse> CallUpdated(CallUpdateRequest callUpdateRequest)
-        {
-            var model = new CallUpdateModel()
-            {
-                CallId = long.Parse(callUpdateRequest.CallId),
-                PhoneNumber = callUpdateRequest.Number,
-                EndDate = callUpdateRequest.Date,
-                CallTypeIndex = ConvertToPgCallType(callUpdateRequest.CallType, callUpdateRequest.CallResult),
-                IsLive = callUpdateRequest.IsLive
-            };
-            if (!string.IsNullOrEmpty(callUpdateRequest.IdentityId))
-                model.IdentityId = new Guid(callUpdateRequest.IdentityId);
 
-            var callupdateResult = MyIPgClient.GetTelephonySystem().CallUpdate(model);
-            CallUpdateResponse response = new CallUpdateResponse()
-            {
-                IdentityId = callupdateResult.IdentityId.HasValue ? callupdateResult.IdentityId.ToString() : null,
-                IdentityName = callupdateResult.IdentityNickName,
-            };
-            return Task.FromResult(response);
+                throw;
+            }
         }
-        public Task<CallChannelCreateResponse> CallChannelCreated(CallChannelCreateRequest callChannelCreateRequest)
-        {
-            var callChannelCreateResult = MyIPgClient.GetTelephonySystem().CallChannelCreate(new CallChannelCreateModel()
-            {
-                CallId = long.Parse(callChannelCreateRequest.CallId),
-                ChannelPeerName = callChannelCreateRequest.PeerName,
-                ChannelPeerTypeIndex = ConvertToPgPeerType(callChannelCreateRequest.PeerType),
-                ChannelSourceId = callChannelCreateRequest.RefCallChannelId,
-                ChannelStatusIndex = ConvertToPgChannelStatusType(callChannelCreateRequest.ChannelState),
-                CreateDate = callChannelCreateRequest.CreateDate,
-                IsLive = callChannelCreateRequest.IsLive
-            });
 
-            CallChannelCreateResponse response = new CallChannelCreateResponse()
-            {
-                CallChannelId = callChannelCreateResult.CallChannelId.ToString()
-            };
-            return Task.FromResult(response);
-        }
-        public Task<CallChannelUpdateResponse> CallChannelUpdated(CallChannelUpdateRequest callChannelUpdateRequest)
+        public async Task<string> GetProfileUrlFormat()
         {
-            MyIPgClient.GetTelephonySystem().CallChannelUpdate(new CallChannelUpdateModel()
+            try
             {
-                CallChannelId = long.Parse(callChannelUpdateRequest.ChannelId),
-                ChannelStatusIndex = ConvertToPgChannelStatusType(callChannelUpdateRequest.ChannelState),
-                ChannelResponseIndex = ConvertToPgChannelResponseType(callChannelUpdateRequest.ChannelResponse),
-                ConnectDate = callChannelUpdateRequest.ConnectDate,
-                HangupDate = callChannelUpdateRequest.HangupDate,
-                RecordedFileName = callChannelUpdateRequest.RecordedFileName,
-                IsLive = callChannelUpdateRequest.IsLive,
-                ToChangePeerName = callChannelUpdateRequest.ToChangePeerName,
-                ToChangePeerTypeIndex = callChannelUpdateRequest.ToChangePeerType != null ?
-                                            ConvertToPgPeerType(callChannelUpdateRequest.ToChangePeerType.Value) :
-                                            (TelephonySystemPeerType?)null
-            });
+                return await _abrPlusClient.General.IdentityApiClientApi.IdentityApi_GetProfileUrlFormatAsync();
+            }
+            catch (System.Exception ex)
+            {
 
-            CallChannelUpdateResponse response = new CallChannelUpdateResponse()
-            {
-                CallChannelId = callChannelUpdateRequest.ChannelId.ToString()
-            };
-            return Task.FromResult(response);
-        }
-        public Task<MergeCallResponse> MergeCall(MergeCallRequest mergeCallRequest)
-        {
-            MyIPgClient.GetTelephonySystem().MergeCall(new Septa.PayamGostarApiClient.TelephonySystem.CallMergeModel()
-            {
-                TsKey = mergeCallRequest.TsKey,
-                SourceCallId = long.Parse(mergeCallRequest.SourceCallId),
-                DestinationCallId = long.Parse(mergeCallRequest.DestCallId),
-            });
-            MergeCallResponse response = new MergeCallResponse()
-            {
-                Merged = true
-            };
-            return Task.FromResult(response);
+                throw;
+            }
         }
     }
 }

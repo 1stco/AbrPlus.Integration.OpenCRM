@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace AbrPlus.Integration.OpenCRM.Client.REST
 {
-    public class CallStoreApiRestClient : ICallStoreApiClient, ICallStoreApiRestClient
+    public class CallStoreApiClient : ICallStoreApiClient
     {
         protected string Host { get; }
         protected string Username { get; }
@@ -21,7 +21,7 @@ namespace AbrPlus.Integration.OpenCRM.Client.REST
         public virtual string CallStoreName { get; }
 
 
-        public CallStoreApiRestClient(string callStoreId, string callStoreName, string host, string username, string password, AuthType authType)
+        public CallStoreApiClient(string callStoreId, string callStoreName, string host, string username, string password, AuthType authType)
         {
             CallStoreId = callStoreId;
             CallStoreName = callStoreName;
@@ -70,6 +70,24 @@ namespace AbrPlus.Integration.OpenCRM.Client.REST
                 return await api.MergeCall(mergeCallRequest);
             }
         }
+        public async Task<string> GetCallerIdName(string phoneNumber)
+        {
+            using (var client = CreateClient())
+            {
+                var api = RestService.For<ICallStoreApiRestClient>(client);
+                return await api.GetCallerIdName(phoneNumber);
+            }
+        }
+
+        public async Task<string> GetProfileUrlFormat()
+        {
+            using (var client = CreateClient())
+            {
+                var api = RestService.For<ICallStoreApiRestClient>(client);
+                return await api.GetProfileUrlFormat();
+            }
+        }
+
         protected virtual HttpClient CreateClient()
         {
             var client = RestService.CreateHttpClient(Host, null);

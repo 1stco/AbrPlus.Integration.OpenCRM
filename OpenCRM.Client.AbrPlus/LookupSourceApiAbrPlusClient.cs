@@ -25,7 +25,7 @@ using System.Threading.Tasks;
 
 namespace AbrPlus.Integration.OpenCRM.Client.AbrPlus
 {
-    public class LookupSourceApiPayamGostarClient : CallStoreApiAbrPlusClient, ILookupSourceApiClient
+    public class LookupSourceApiAbrPlusClient : CallStoreApiAbrPlusClient, ILookupSourceApiClient
     {
         private readonly string _host;
         private readonly PasswordFlowAutorize _passwordFlow;
@@ -34,7 +34,7 @@ namespace AbrPlus.Integration.OpenCRM.Client.AbrPlus
         private DateTime _nextClientCreateDate;
 
 
-        public LookupSourceApiPayamGostarClient(string lookupSourceId,
+        public LookupSourceApiAbrPlusClient(string lookupSourceId,
                                                 string callStoreName,
                                                 string host,
                                                 PasswordFlowAutorize passwordFlow,
@@ -49,39 +49,39 @@ namespace AbrPlus.Integration.OpenCRM.Client.AbrPlus
 
         public ICrmObjectTypeChannel CreateCrmObjectTypeClient()
         {
-            return new PayamgostarApiClientFactory<ICrmObjectTypeChannel>().Create(_host);
+            return new AbrPlusApiClientFactory<ICrmObjectTypeChannel>().Create(_host);
         }
         public ICrmObjectChannel CreateCrmObjectClient()
         {
-            return new PayamgostarApiClientFactory<ICrmObjectChannel>().Create(_host);
+            return new AbrPlusApiClientFactory<ICrmObjectChannel>().Create(_host);
         }
         public IIdentityChannel CreateIdentityClient()
         {
-            return new PayamgostarApiClientFactory<IIdentityChannel>().Create(_host);
+            return new AbrPlusApiClientFactory<IIdentityChannel>().Create(_host);
         }
         public IUserChannel CreateUserClient()
         {
-            return new PayamgostarApiClientFactory<IUserChannel>().Create(_host);
+            return new AbrPlusApiClientFactory<IUserChannel>().Create(_host);
         }
         public IContractChannel CreateContractClient()
         {
-            return new PayamgostarApiClientFactory<IContractChannel>().Create(_host);
+            return new AbrPlusApiClientFactory<IContractChannel>().Create(_host);
         }
         public IEpayChannel CreateEpayClient()
         {
-            return new PayamgostarApiClientFactory<IEpayChannel>().Create(_host);
+            return new AbrPlusApiClientFactory<IEpayChannel>().Create(_host);
         }
         public IInvoiceChannel CreateInvoiceClient()
         {
-            return new PayamgostarApiClientFactory<IInvoiceChannel>().Create(_host);
+            return new AbrPlusApiClientFactory<IInvoiceChannel>().Create(_host);
         }
         public IPaymentChannel CreatePaymnetClient()
         {
-            return new PayamgostarApiClientFactory<IPaymentChannel>().Create(_host);
+            return new AbrPlusApiClientFactory<IPaymentChannel>().Create(_host);
         }
         public IMoneyAccountChannel CreateMoneyAccountClient()
         {
-            return new PayamgostarApiClientFactory<IMoneyAccountChannel>().Create(_host);
+            return new AbrPlusApiClientFactory<IMoneyAccountChannel>().Create(_host);
         }
         private PaymentResponse GetReceiptInfo(CustomerRequest customerRequest, string billableObjectTypeKey, string billableObjectNumber, string lookupNumberFieldKey, string valueFieldKey)
         {

@@ -11,5 +11,7 @@ namespace AbrPlus.Integration.OpenCRM
         Task<CallChannelCreateResponse> CallChannelCreated(CallChannelCreateRequest callChannelCreateRequest);
         Task<CallChannelUpdateResponse> CallChannelUpdated(CallChannelUpdateRequest callChannelUpdateRequest);
         Task<MergeCallResponse> MergeCall(MergeCallRequest mergeCallRequest);
+        Task<string> GetCallerIdName(string phoneNumber);
+        Task<string> GetProfileUrlFormat();
     }
 }

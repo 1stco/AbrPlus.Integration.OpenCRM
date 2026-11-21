@@ -21,5 +21,11 @@ namespace AbrPlus.Integration.OpenCRM.Client.REST
 
         [Post("/call/MergeCall")]
         Task<MergeCallResponse> MergeCall([Body] MergeCallRequest mergeCallRequest);
+
+        [Get("/call/callerIdName")]
+        Task<string> GetCallerIdName(string phoneNumber);
+
+        [Get("/call/profileUrlFormat")]
+        Task<string> GetProfileUrlFormat();
     }
 }
