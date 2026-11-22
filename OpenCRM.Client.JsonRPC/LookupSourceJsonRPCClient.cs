@@ -20,7 +20,7 @@ namespace AbrPlus.Integration.OpenCRM.Client.JsonRPC
         {
         }
 
-        public LookupSourceJsonRPCClient(string callStoreId, string callStoreName, string host, PasswordFlowAutorize auth, ILoggerFactory loggerFactory = null)
+        public LookupSourceJsonRPCClient(string callStoreId, string callStoreName, string host, PublicPasswordFlowAutorize auth, ILoggerFactory loggerFactory = null)
             : base(callStoreId, callStoreName, host, auth, loggerFactory)
         {
         }

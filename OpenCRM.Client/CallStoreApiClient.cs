@@ -45,12 +45,12 @@ namespace AbrPlus.Integration.OpenCRM.Client.REST
             _handler = new ApiClientHandler(auth, loggerFactory ?? NullLoggerFactory.Instance);
         }
 
-        public CallStoreApiClient(string callStoreId, string callStoreName, string host, PasswordFlowAutorize auth, ILoggerFactory loggerFactory = null)
+        public CallStoreApiClient(string callStoreId, string callStoreName, string host, PublicPasswordFlowAutorize auth, ILoggerFactory loggerFactory = null)
             : this(callStoreId, callStoreName, host)
         {
             if (auth == null)
                 throw new ArgumentNullException(nameof(auth));
-            _handler = new ApiClientHandler(host, auth, loggerFactory ?? NullLoggerFactory.Instance);
+            _handler = new ApiClientHandler(auth, loggerFactory ?? NullLoggerFactory.Instance);
         }
 
         public CallStoreApiClient(string callStoreId, string callStoreName, string host, BearerAuthorize auth, ILoggerFactory loggerFactory = null)

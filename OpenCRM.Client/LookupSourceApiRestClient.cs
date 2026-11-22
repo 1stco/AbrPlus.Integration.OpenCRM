@@ -21,7 +21,7 @@ namespace AbrPlus.Integration.OpenCRM.Client.REST
         {
         }
 
-        public LookupSourceApiRestClient(string lookupSourceId, string callStoreName, string host, PasswordFlowAutorize auth, ILoggerFactory loggerFactory = null)
+        public LookupSourceApiRestClient(string lookupSourceId, string callStoreName, string host, PublicPasswordFlowAutorize auth, ILoggerFactory loggerFactory = null)
             : base(lookupSourceId, callStoreName, host, auth, loggerFactory)
         {
         }

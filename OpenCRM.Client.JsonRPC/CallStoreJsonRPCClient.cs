@@ -46,14 +46,13 @@ namespace AbrPlus.Integration.OpenCRM.Client.JsonRPC
             _handler = new ApiClientHandler(auth, loggerFactory ?? NullLoggerFactory.Instance);
         }
 
-        public CallStoreJsonRPCClient(string callStoreId, string callStoreName, string host, PasswordFlowAutorize auth, ILoggerFactory loggerFactory = null)
+        public CallStoreJsonRPCClient(string callStoreId, string callStoreName, string host, PublicPasswordFlowAutorize auth, ILoggerFactory loggerFactory = null)
             : this(callStoreId, callStoreName, host)
         {
             if (auth == null)
                 throw new ArgumentNullException(nameof(auth));
 
-            var domainUrl = new Uri(Host, UriKind.Absolute).GetLeftPart(UriPartial.Authority);
-            _handler = new ApiClientHandler(domainUrl, auth, loggerFactory ?? NullLoggerFactory.Instance);
+            _handler = new ApiClientHandler(auth, loggerFactory ?? NullLoggerFactory.Instance);
         }
 
         public CallStoreJsonRPCClient(string callStoreId, string callStoreName, string host, BearerAuthorize auth, ILoggerFactory loggerFactory = null)

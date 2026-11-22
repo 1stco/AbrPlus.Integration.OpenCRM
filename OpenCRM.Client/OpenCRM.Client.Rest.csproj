@@ -7,9 +7,9 @@
     <Company>AbrPlus</Company>
     <Authors>AbrPlus</Authors>
     <Owners>AbrPlus</Owners>
-    <Version>1.0.24</Version>
-    <AssemblyVersion>1.0.24</AssemblyVersion>
-    <FileVersion>1.0.24</FileVersion>
+    <Version>1.0.25</Version>
+    <AssemblyVersion>1.0.25</AssemblyVersion>
+    <FileVersion>1.0.25</FileVersion>
     <Description>Copyright © AbrPlus 2026</Description>
     <RepositoryUrl>https://github.com/1stco/AbrPlus.Integration.OpenCRM</RepositoryUrl>
     <Description>REST client for AbrPlus OpenCRM contracts</Description>
@@ -23,7 +23,7 @@
   
   <ItemGroup>
     <PackageReference Include="Refit" Version="8.0.0" />
-    <PackageReference Include="AbrPlus.Platform.Client" Version="1.1.26" />
+    <PackageReference Include="AbrPlus.Platform.Client" Version="1.1.27" />
   </ItemGroup>
 
   <ItemGroup>
