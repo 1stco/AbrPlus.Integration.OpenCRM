@@ -1,29 +1,21 @@
-﻿//using AbrPlus.Platform.Client;
-
-using AbrPlus.Integration.OpenCRM.Requests;
+﻿using AbrPlus.Integration.OpenCRM.Requests;
 using AbrPlus.Integration.OpenCRM.Responses;
 using Payamgostar.Client.Telephony;
 using SeptaKit.Extensions;
-using System;
 
 namespace AbrPlus.Integration.OpenCRM.Client.PayamGostar.Mapper
 {
     public static class CallMapper
     {
-        public static T ParseEnum<T>(this string oldType)
-        {
-            return (T)Enum.Parse(typeof(T), oldType.ToString(), true);
-        }
-
         public static CallCreateModel ToVm(this CallCreateRequest request)
         {
             return new CallCreateModel()
             {
                 InitChannelPeerName = request.InitCallChannelPeerName,
-                InitChannelPeerTypeIndex = request.InitCallChannelPeerType.ToString().ParseEnum<Gp_TelephonySystemPeerType>(), //(PeerType)Enum.Parse(typeof(PeerType),request.InitCallChannelPeerType.ToString()), //(PeerType)request.InitCallChannelPeerType,
+                InitChannelPeerTypeIndex = (Gp_TelephonySystemPeerType)request.InitCallChannelPeerType,
                 InitChannelSourceId = request.RefInitCallChannelId,
                 IsLive = request.IsLive,
-                CallTypeIndex = request.CallType.ToString().ParseEnum<Gp_PhoneCallType>(),
+                CallTypeIndex = (Gp_PhoneCallType)request.CallType,
                 PhoneNumber = request.Number,
                 SourceId = request.RefCallId,
                 StartDate = request.Date,
@@ -54,7 +46,7 @@ namespace AbrPlus.Integration.OpenCRM.Client.PayamGostar.Mapper
                 //TsKey = request.TsKey,
                 CallId = callId.Value,
                 PhoneNumber = request.Number,
-                CallTypeIndex = request.CallType.ToString().ParseEnum<Gp_PhoneCallType>(),
+                CallTypeIndex = (Gp_PhoneCallType)request.CallType,
                 IdentityId = request.IdentityId?.ToGuid(),
                 IsLive = request.IsLive,
                 EndDate = request.Date,
@@ -82,9 +74,9 @@ namespace AbrPlus.Integration.OpenCRM.Client.PayamGostar.Mapper
             {
                 CallId = callId.Value,
                 ChannelPeerName = request.PeerName,
-                ChannelPeerTypeIndex = request.PeerType.ToString().ParseEnum<Gp_TelephonySystemPeerType>(),
+                ChannelPeerTypeIndex = (Gp_TelephonySystemPeerType)request.PeerType,
                 ChannelSourceId = request.RefCallChannelId,
-                ChannelStatusIndex = request.ChannelState.ToString().ParseEnum<Gp_ChannelStatus>(),
+                ChannelStatusIndex = (Gp_ChannelStatus)request.ChannelState,
                 CreateDate = request.CreateDate,
                 IsLive = request.IsLive,
                 //TsKey = request.TsKey,
@@ -109,14 +101,14 @@ namespace AbrPlus.Integration.OpenCRM.Client.PayamGostar.Mapper
             return new CallChannelUpdateModel()
             {
                 CallChannelId = callChannelId.Value,
-                ChannelStatusIndex = request.ChannelState.ToString().ParseEnum<Gp_ChannelStatus>(),
-                ChannelResponseIndex = request.ChannelResponse.ToString().ParseEnum<Gp_ChannelResponse>(),
+                ChannelStatusIndex = (Gp_ChannelStatus)request.ChannelState,
+                ChannelResponseIndex = (Gp_ChannelResponse)request.ChannelResponse,
                 ConnectDate = request.ConnectDate,
                 HangupDate = request.HangupDate,
                 IsLive = request.IsLive,
                 RecordedFileName = request.RecordedFileName,
                 ToChangePeerName = request.ToChangePeerName,
-                ToChangePeerTypeIndex = request.ToChangePeerType?.ToString().ParseEnum<Gp_TelephonySystemPeerType>(),
+                ToChangePeerTypeIndex = (Gp_TelephonySystemPeerType?)request.ToChangePeerType,
                 //TsKey = request.TsKey,
             };
         }
